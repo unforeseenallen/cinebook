@@ -1291,3 +1291,20 @@ body {
 
 
 
+
+/* Best Seats Glow Effect */
+.best-seat {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(229, 9, 20, 0.6) !important;
+    animation: pulse-glow 2s infinite alternate;
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(229, 9, 20, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(229, 9, 20, 0.8);
+    }
+}
+

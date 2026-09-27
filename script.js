@@ -587,6 +587,14 @@ function createSeats() {
                 if (isOccupied) {
                     seat.classList.add("occupied-seat");
                     // Keep the number, just let CSS grey it out
+                } else {
+                    // Define best seats (Center seats in Row G & F)
+                    const isBestSeat = (rowData.label === "G" && [7, 8, 9, 10].includes(i)) || 
+                                       (rowData.label === "F" && [5, 6, 7, 8].includes(i));
+                    
+                    if (isBestSeat) {
+                        seat.classList.add("best-seat");
+                    }
                 }
 
                 seat.addEventListener("click", function () {
