@@ -866,9 +866,9 @@ async function sendTicketEmail() {
 
     try {
         // REPLACE THESE 3 VALUES WITH YOUR EMAILJS KEYS
-        const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-        const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-        const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+        const EMAILJS_PUBLIC_KEY = "OFIc6nWwL4ly8N_uB";
+        const EMAILJS_SERVICE_ID = "service_ji15w69";
+        const EMAILJS_TEMPLATE_ID = "template_fug98m4";
 
         emailjs.init(EMAILJS_PUBLIC_KEY);
 
