@@ -870,8 +870,6 @@ async function sendTicketEmail() {
         const EMAILJS_SERVICE_ID = "service_ji15w69";
         const EMAILJS_TEMPLATE_ID = "template_fug98m4";
 
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-
         const templateParams = {
             to_email: email,
             booking_id: bookingId,
@@ -885,7 +883,10 @@ async function sendTicketEmail() {
             qr_url: qrUrl
         };
 
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+        // Use the v4 specific signature
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, {
+            publicKey: EMAILJS_PUBLIC_KEY,
+        });
 
         if (statusEl) {
             statusEl.textContent = "✅ E-ticket sent successfully to " + email;
@@ -894,6 +895,10 @@ async function sendTicketEmail() {
         if (sendBtn) sendBtn.textContent = "✉ Resend E-Ticket";
     } catch (error) {
         console.error("EmailJS send error:", error);
+        
+        // Show the exact error on the screen so we can debug it
+        alert("EmailJS Error: " + (error.text || error.message || JSON.stringify(error)));
+        
         if (statusEl) {
             statusEl.textContent = "❌ Could not send email. Click below to retry.";
             statusEl.className = "email-status error";
