@@ -817,8 +817,11 @@ function loadConfirmation() {
 }
 
 /* =========================================
-   SEND E-TICKET EMAIL (AUTOMATIC)
+   SEND E-TICKET EMAIL (AUTOMATIC via EmailJS)
 ========================================= */
+
+// IMPORTANT: Initialize EmailJS with your Public Key
+// We will do this right before sending.
 
 async function sendTicketEmail() {
     const email = localStorage.getItem("cinebookEmail");
@@ -839,7 +842,6 @@ async function sendTicketEmail() {
     const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
     const price = Number(localStorage.getItem("price")) || 200;
     const total = seats.length * price;
-    const paymentMethod = localStorage.getItem("paymentMethod") || "-";
 
     // Show sending state
     if (statusEl) {
@@ -848,37 +850,50 @@ async function sendTicketEmail() {
     }
     if (sendBtn) sendBtn.disabled = true;
 
+    // Generate QR Code URL
+    const qrData = [
+        "CINEBOOK E-TICKET",
+        "Booking ID: " + bookingId,
+        "Movie: " + movie,
+        "Theatre: " + theatre,
+        "Screen: " + screen,
+        "Date: " + date,
+        "Time: " + time,
+        "Seats: " + seats.join(", "),
+        "Email: " + email
+    ].join("\n");
+    const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(qrData);
+
     try {
-        const response = await fetch("/api/send-ticket", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                email: email,
-                movie: movie,
-                theatre: theatre,
-                screen: screen,
-                date: date,
-                time: time,
-                seats: seats.join(", "),
-                total: total,
-                bookingId: bookingId,
-                paymentMethod: paymentMethod
-            })
-        });
+        // REPLACE THESE 3 VALUES WITH YOUR EMAILJS KEYS
+        const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+        const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+        const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
-        const result = await response.json();
+        emailjs.init(EMAILJS_PUBLIC_KEY);
 
-        if (result.success) {
-            if (statusEl) {
-                statusEl.textContent = "✅ E-ticket sent successfully to " + email;
-                statusEl.className = "email-status success";
-            }
-            if (sendBtn) sendBtn.textContent = "✉ Resend E-Ticket";
-        } else {
-            throw new Error(result.message || "Server error");
+        const templateParams = {
+            to_email: email,
+            booking_id: bookingId,
+            movie_name: movie,
+            theatre: theatre,
+            screen: screen,
+            date: date,
+            time: time,
+            seats: seats.join(", "),
+            total: total,
+            qr_url: qrUrl
+        };
+
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+
+        if (statusEl) {
+            statusEl.textContent = "✅ E-ticket sent successfully to " + email;
+            statusEl.className = "email-status success";
         }
+        if (sendBtn) sendBtn.textContent = "✉ Resend E-Ticket";
     } catch (error) {
-        console.error("Email send error:", error);
+        console.error("EmailJS send error:", error);
         if (statusEl) {
             statusEl.textContent = "❌ Could not send email. Click below to retry.";
             statusEl.className = "email-status error";
