@@ -492,6 +492,23 @@ window.location.href = "seats.html";
 }
 
 /* =========================================
+   SEAT CATEGORIES & PRICING
+========================================= */
+
+function getSeatPrice(seatNumber) {
+    if (seatNumber >= 51 && seatNumber <= 60) return 500; // Recliner
+    if (seatNumber >= 41 && seatNumber <= 50) return 350; // Extra Leg Room
+    if (seatNumber >= 21 && seatNumber <= 40) return 250; // Prime
+    return 150; // Classic
+}
+
+function calculateTotal(seats) {
+    return seats.reduce(function(sum, seat) {
+        return sum + getSeatPrice(Number(seat));
+    }, 0);
+}
+
+/* =========================================
    CREATE SEATS
 ========================================= */
 
@@ -505,34 +522,53 @@ function createSeats() {
     let occupied = [];
 
     if (screen === "Screen 1") {
-        occupied = [3, 7, 12, 18, 24, 31, 36, 45];
+        occupied = [3, 7, 12, 18, 24, 31, 36, 45, 52, 58];
     } else if (screen === "Screen 2") {
-        occupied = [2, 5, 11, 17, 22, 29, 34, 41, 48];
+        occupied = [2, 5, 11, 17, 22, 29, 34, 41, 48, 55];
     } else if (screen === "Screen 3") {
-        occupied = [4, 9, 15, 20, 27, 32, 39, 44];
+        occupied = [4, 9, 15, 20, 27, 32, 39, 44, 53, 59];
     } else {
-        occupied = [1, 6, 13, 19, 25, 33, 38, 47];
+        occupied = [1, 6, 13, 19, 25, 33, 38, 47, 51, 60];
     }
 
-    for (let i = 1; i <= 60; i++) {
-        const seat = document.createElement("div");
-        seat.classList.add("seat");
-        seat.innerText = i;
-        seat.dataset.seat = i;
+    // Define categories and rows
+    const categories = [
+        { name: "Classic (₹150)", start: 1, end: 20 },
+        { name: "Prime (₹250)", start: 21, end: 40 },
+        { name: "Extra Leg Room (₹350)", start: 41, end: 50 },
+        { name: "Recliners (₹500)", start: 51, end: 60 }
+    ];
 
-        if (occupied.includes(i)) {
-            seat.classList.add("occupied-seat");
+    categories.forEach(function(cat) {
+        const title = document.createElement("div");
+        title.classList.add("seat-category-title");
+        title.innerText = cat.name;
+        container.appendChild(title);
+
+        const rowContainer = document.createElement("div");
+        rowContainer.classList.add("seat-row-group");
+
+        for (let i = cat.start; i <= cat.end; i++) {
+            const seat = document.createElement("div");
+            seat.classList.add("seat");
+            seat.innerText = i;
+            seat.dataset.seat = i;
+
+            if (occupied.includes(i)) {
+                seat.classList.add("occupied-seat");
+            }
+
+            seat.addEventListener("click", function () {
+                if (seat.classList.contains("occupied-seat")) return;
+                seat.classList.toggle("selected-seat");
+                updateSeats();
+            });
+
+            rowContainer.appendChild(seat);
         }
-
-        seat.addEventListener("click", function () {
-            if (seat.classList.contains("occupied-seat")) return;
-
-            seat.classList.toggle("selected-seat");
-            updateSeats();
-        });
-
-        container.appendChild(seat);
-    }
+        
+        container.appendChild(rowContainer);
+    });
 
     // Restore selections if user returns to this page.
     const savedSeats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
@@ -562,7 +598,7 @@ function updateSeats() {
     localStorage.setItem("selectedSeats", JSON.stringify(seats));
 
     const price = Number(localStorage.getItem("price")) || 200;
-    const total = seats.length * price;
+    const total = calculateTotal(seats);
 
     const selectedElement = document.getElementById("selectedSeats");
     const totalElement = document.getElementById("seatTotal");
@@ -605,7 +641,7 @@ function loadPayment() {
 
     const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
     const price = Number(localStorage.getItem("price")) || 200;
-    const total = seats.length * price;
+    const total = calculateTotal(seats);
 
     const fields = {
         payMovie: movie,
@@ -635,7 +671,7 @@ function loadPayment() {
 function getPaymentRequestLink() {
     const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
     const price = Number(localStorage.getItem("price")) || 200;
-    const total = seats.length * price;
+    const total = calculateTotal(seats);
     const bookingNote = "CineBook tickets - " + (localStorage.getItem("movie") || "Movie tickets");
     const upiId = "cinebook@upi"; // Replace with your real merchant UPI ID before launch.
 
@@ -724,7 +760,7 @@ function completePayment() {
         date: localStorage.getItem("date") || "-",
         time: localStorage.getItem("time") || "-",
         seats: seats,
-        total: seats.length * (Number(localStorage.getItem("price")) || 200),
+        total: calculateTotal(seats),
         paymentMethod: payment.value,
         bookedAt: new Date().toISOString()
     });
@@ -760,7 +796,7 @@ function loadConfirmation() {
 
     const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
     const price = Number(localStorage.getItem("price")) || 200;
-    const total = seats.length * price;
+    const total = calculateTotal(seats);
 
     const bookingId = localStorage.getItem("bookingId") || "-";
     const paymentMethod = localStorage.getItem("paymentMethod") || "-";
@@ -841,7 +877,7 @@ async function sendTicketEmail() {
     const time = localStorage.getItem("time") || "-";
     const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
     const price = Number(localStorage.getItem("price")) || 200;
-    const total = seats.length * price;
+    const total = calculateTotal(seats);
 
     // Show sending state
     if (statusEl) {
@@ -925,7 +961,7 @@ function sendTicketByGmail() {
     const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
     const bookingId = localStorage.getItem("bookingId") || "-";
     const price = Number(localStorage.getItem("price")) || 200;
-    const total = seats.length * price;
+    const total = calculateTotal(seats);
 
     const subject = "CineBook E-Ticket - " + bookingId;
 
