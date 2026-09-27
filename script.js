@@ -495,16 +495,27 @@ window.location.href = "seats.html";
    SEAT CATEGORIES & PRICING
 ========================================= */
 
-function getSeatPrice(seatNumber) {
-    if (seatNumber >= 51 && seatNumber <= 60) return 500; // Recliner
-    if (seatNumber >= 41 && seatNumber <= 50) return 350; // Extra Leg Room
-    if (seatNumber >= 21 && seatNumber <= 40) return 250; // Prime
-    return 150; // Classic
+const seatPricing = {
+    "RECLINER ROWS": 280,
+    "PRIME ROWS": 170,
+    "EXTRA LEGROOM ROWS": 200,
+    "CLASSIC PLUS ROWS": 150,
+    "CLASSIC ROWS": 105
+};
+
+function getSeatPrice(seatId) {
+    // seatId format: "Row-Num" e.g., "K-5"
+    const row = seatId.split("-")[0];
+    if (row === "K") return seatPricing["RECLINER ROWS"];
+    if (row === "J" || row === "H") return seatPricing["PRIME ROWS"];
+    if (row === "G") return seatPricing["EXTRA LEGROOM ROWS"];
+    if (["F", "E", "D", "C"].includes(row)) return seatPricing["CLASSIC PLUS ROWS"];
+    return seatPricing["CLASSIC ROWS"];
 }
 
 function calculateTotal(seats) {
-    return seats.reduce(function(sum, seat) {
-        return sum + getSeatPrice(Number(seat));
+    return seats.reduce(function (sum, seatId) {
+        return sum + getSeatPrice(seatId);
     }, 0);
 }
 
@@ -518,63 +529,94 @@ function createSeats() {
 
     container.innerHTML = "";
 
-    const screen = localStorage.getItem("screen");
-    let occupied = [];
-
-    if (screen === "Screen 1") {
-        occupied = [3, 7, 12, 18, 24, 31, 36, 45, 52, 58];
-    } else if (screen === "Screen 2") {
-        occupied = [2, 5, 11, 17, 22, 29, 34, 41, 48, 55];
-    } else if (screen === "Screen 3") {
-        occupied = [4, 9, 15, 20, 27, 32, 39, 44, 53, 59];
-    } else {
-        occupied = [1, 6, 13, 19, 25, 33, 38, 47, 51, 60];
-    }
-
-    // Define categories and rows
-    const categories = [
-        { name: "Classic (₹150)", start: 1, end: 20 },
-        { name: "Prime (₹250)", start: 21, end: 40 },
-        { name: "Extra Leg Room (₹350)", start: 41, end: 50 },
-        { name: "Recliners (₹500)", start: 51, end: 60 }
+    // The layout based on the provided design
+    const layout = [
+        { category: "RECLINER ROWS: ₹280", rows: [{ label: "K", start: 3, end: 11 }] },
+        { category: "PRIME ROWS: ₹170", rows: [
+            { label: "J", start: 2, end: 15 },
+            { label: "H", start: 1, end: 15, occupied: [1,2,3,4,5,6,7,8] } // X marks in screenshot
+        ]},
+        { category: "EXTRA LEGROOM ROWS: ₹200", rows: [{ label: "G", start: 2, end: 15 }] },
+        { category: "CLASSIC PLUS ROWS: ₹150", rows: [
+            { label: "F", start: 1, end: 12 },
+            { label: "E", start: 1, end: 12 },
+            { label: "D", start: 1, end: 12 },
+            { label: "C", start: 1, end: 12 }
+        ]},
+        { category: "CLASSIC ROWS: ₹105", rows: [
+            { label: "B", start: 1, end: 12 },
+            { label: "A", start: 1, end: 12 }
+        ]}
     ];
 
-    categories.forEach(function(cat) {
-        const title = document.createElement("div");
-        title.classList.add("seat-category-title");
-        title.innerText = cat.name;
-        container.appendChild(title);
+    layout.forEach(function (section) {
+        // Category Header
+        const header = document.createElement("div");
+        header.classList.add("seat-category-header");
+        header.innerText = section.category;
+        container.appendChild(header);
 
-        const rowContainer = document.createElement("div");
-        rowContainer.classList.add("seat-row-group");
+        // Render each row in this category
+        section.rows.forEach(function (rowData) {
+            const rowWrapper = document.createElement("div");
+            rowWrapper.classList.add("seat-row-wrapper");
 
-        for (let i = cat.start; i <= cat.end; i++) {
-            const seat = document.createElement("div");
-            seat.classList.add("seat");
-            seat.innerText = i;
-            seat.dataset.seat = i;
+            // Row Label (K, J, etc)
+            const label = document.createElement("div");
+            label.classList.add("row-label");
+            label.innerText = rowData.label;
+            rowWrapper.appendChild(label);
 
-            if (occupied.includes(i)) {
-                seat.classList.add("occupied-seat");
+            const rowDiv = document.createElement("div");
+            rowDiv.classList.add("seat-row");
+
+            for (let i = rowData.start; i <= rowData.end; i++) {
+                const seat = document.createElement("div");
+                seat.classList.add("seat");
+                seat.innerText = i;
+                
+                // Store unique ID like K-5
+                const seatId = rowData.label + "-" + i;
+                seat.dataset.seat = seatId;
+
+                // Mark occupied
+                const screen = localStorage.getItem("screen");
+                const isOccupied = (rowData.occupied && rowData.occupied.includes(i)) || 
+                                   (Math.random() < 0.15); // Randomly occupy 15% of seats for realism across screens
+
+                if (isOccupied) {
+                    seat.classList.add("occupied-seat");
+                    seat.innerText = "×"; // show cross for occupied like in image
+                }
+
+                seat.addEventListener("click", function () {
+                    if (seat.classList.contains("occupied-seat")) return;
+                    seat.classList.toggle("selected-seat");
+                    updateSeats();
+                });
+
+                rowDiv.appendChild(seat);
             }
 
-            seat.addEventListener("click", function () {
-                if (seat.classList.contains("occupied-seat")) return;
-                seat.classList.toggle("selected-seat");
-                updateSeats();
-            });
-
-            rowContainer.appendChild(seat);
-        }
-        
-        container.appendChild(rowContainer);
+            rowWrapper.appendChild(rowDiv);
+            container.appendChild(rowWrapper);
+        });
     });
 
-    // Restore selections if user returns to this page.
-    const savedSeats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
+    // Add Curved Screen at the bottom
+    const screenDiv = document.createElement("div");
+    screenDiv.classList.add("screen-curved");
+    container.appendChild(screenDiv);
 
-    savedSeats.forEach(function (seatNumber) {
-        const seat = container.querySelector('[data-seat="' + seatNumber + '"]');
+    const screenText = document.createElement("div");
+    screenText.classList.add("screen-text");
+    screenText.innerText = "All eyes this way please";
+    container.appendChild(screenText);
+
+    // Restore selections
+    const savedSeats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
+    savedSeats.forEach(function (seatId) {
+        const seat = container.querySelector('[data-seat="' + seatId + '"]');
         if (seat && !seat.classList.contains("occupied-seat")) {
             seat.classList.add("selected-seat");
         }
