@@ -251,19 +251,35 @@ function loadCart() {
     bookingsList.innerHTML = "";
     emptyBookings.style.display = bookings.length ? "none" : "block";
 
+    
     bookings.slice().sort(function (first, second) {
         return new Date(second.bookedAt || 0) - new Date(first.bookedAt || 0);
-    }).slice(0, 5).forEach(function (booking) {
+    }).slice(0, 10).forEach(function (booking) {
         const card = document.createElement("article");
         card.className = "confirmed-booking";
+        
+        const isCancelled = booking.status === "CANCELLED";
+        const statusClass = isCancelled ? "booking-status-cancelled" : "booking-status";
+        const statusText = isCancelled ? "CANCELLED" : "CONFIRMED";
+        
+        let cancelBtnHtml = "";
+        if (!isCancelled) {
+            cancelBtnHtml = "<button class='cancel-ticket-btn' onclick='promptCancelBooking(\"" + booking.id + "\", " + booking.total + ")'>Cancel</button>";
+        }
+        
         card.innerHTML =
-            "<div><span class='booking-status'>CONFIRMED</span><h3></h3><p class='booking-meta'></p></div>" +
-            "<div class='booking-price'></div>";
+            "<div><span class='" + statusClass + "'>" + statusText + "</span><h3></h3><p class='booking-meta'></p></div>" +
+            "<div class='booking-price' style='text-align:right;'>?" + booking.total + "<br><br>" + cancelBtnHtml + "</div>";
+            
         card.querySelector("h3").textContent = booking.movie;
         card.querySelector(".booking-meta").textContent =
-            booking.theatre + " · " + booking.date + " · " + booking.time +
-            " · Seats: " + booking.seats.join(", ") + " · " + booking.id;
-        card.querySelector(".booking-price").textContent = "₹" + booking.total;
+            booking.theatre + " | " + booking.date + " | " + booking.time +
+            " | Seats: " + booking.seats.join(", ") + " | " + booking.id;
+            
+        if (isCancelled) {
+            card.style.opacity = "0.5";
+        }
+        
         bookingsList.appendChild(card);
     });
 
@@ -790,7 +806,14 @@ function completePayment() {
     const bookingId = "CB" + Math.floor(100000 + Math.random() * 900000);
 
     localStorage.setItem("bookingId", bookingId);
-    localStorage.setItem("paymentMethod", payment.value);
+    
+    let methodString = payment.value;
+    if (typeof walletUsedAmount !== "undefined" && walletUsedAmount > 0) {
+        updateWalletBalance(-walletUsedAmount);
+        methodString += " + Wallet";
+    }
+    
+    localStorage.setItem("paymentMethod", methodString);
     localStorage.setItem("paymentStatus", "Paid");
 
     const bookings = getBookings();
@@ -803,7 +826,7 @@ function completePayment() {
         time: localStorage.getItem("time") || "-",
         seats: seats,
         total: calculateTotal(seats),
-        paymentMethod: payment.value,
+        paymentMethod: methodString,
         bookedAt: new Date().toISOString()
     });
     localStorage.setItem(accountStorageKey("cinebookBookings"), JSON.stringify(bookings));
@@ -1125,3 +1148,99 @@ function enterCineBook() {
         intro.classList.add("hide");
     }
 }
+
+/* =========================================
+   WALLET & REFUND SYSTEM
+========================================= */
+
+function getWalletBalance() {
+    return Number(localStorage.getItem("cinebookWallet")) || 0;
+}
+
+function updateWalletBalance(amount) {
+    let current = getWalletBalance();
+    localStorage.setItem("cinebookWallet", current + amount);
+}
+
+function promptCancelBooking(bookingId, amount) {
+    // Create modal dynamically
+    const modal = document.createElement("div");
+    modal.className = "modal";
+    modal.id = "refundModal";
+    modal.style.display = "flex";
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close" onclick="closeRefundModal()">&times;</span>
+            <h2>Cancel Ticket</h2>
+            <p>Are you sure you want to cancel booking <b>${bookingId}</b>?</p>
+            <p>Refund Amount: <b>?${amount}</b></p>
+            <h4 style="margin-top:20px; margin-bottom:10px;">Choose Refund Destination:</h4>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button class="cart-book" style="width:100%" onclick="processRefund('${bookingId}', ${amount}, 'wallet')">CineBook Wallet (Instant & can be used next time)</button>
+                <button class="cart-remove" style="width:100%; border:1px solid #e50914; background:transparent; color:#e50914;" onclick="processRefund('${bookingId}', ${amount}, 'bank')">Direct to Bank (Takes up to 24 hours)</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+function closeRefundModal() {
+    const modal = document.getElementById("refundModal");
+    if (modal) modal.remove();
+}
+
+function processRefund(bookingId, amount, method) {
+    let bookings = getBookings();
+    
+    // Find booking
+    const bookingIndex = bookings.findIndex(b => b.id === bookingId);
+    if (bookingIndex > -1) {
+        bookings[bookingIndex].status = "CANCELLED";
+        saveBookings(bookings);
+        
+        if (method === "wallet") {
+            updateWalletBalance(amount);
+            alert("Ticket cancelled successfully! ?" + amount + " has been added to your CineBook Wallet instantly.");
+        } else {
+            alert("Ticket cancelled successfully! ?" + amount + " will be refunded to your bank account within 24 hours.");
+        }
+    }
+    
+    closeRefundModal();
+    
+    // Reload UI if on cart page
+    if (document.getElementById("bookingsList")) {
+        loadCart();
+    }
+}
+
+
+
+let walletUsedAmount = 0;
+
+function toggleWalletUsage() {
+    const isChecked = document.getElementById("useWalletCheckbox").checked;
+    const balance = getWalletBalance();
+    
+    const seats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
+    const originalTotal = calculateTotal(seats);
+    
+    if (isChecked) {
+        if (balance >= originalTotal) {
+            walletUsedAmount = originalTotal;
+            document.getElementById("payTotal").innerText = "0 (Paid via Wallet)";
+        } else {
+            walletUsedAmount = balance;
+            document.getElementById("payTotal").innerText = (originalTotal - balance) + " (?" + balance + " from Wallet)";
+        }
+    } else {
+        walletUsedAmount = 0;
+        document.getElementById("payTotal").innerText = originalTotal;
+    }
+}
+
+
+
+

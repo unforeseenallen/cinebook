@@ -40,6 +40,15 @@
             </div>
         </div>
 
+        <div class="payment-box" id="walletSection" style="display:none; margin-bottom: 20px;">
+            <h3>CineBook Wallet</h3>
+            <p style="color:#aaa; font-size:14px; margin-bottom:10px;">Available Balance: <strong style="color:white;">₹<span id="walletBalanceDisplay">0</span></strong></p>
+            <label class="payment-option">
+                <input type="checkbox" id="useWalletCheckbox" onchange="toggleWalletUsage()">
+                Use Wallet to pay
+            </label>
+        </div>
+
         <div class="payment-box">
             <h3>Choose Payment Method</h3>
 

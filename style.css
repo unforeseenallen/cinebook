@@ -1308,3 +1308,59 @@ body {
     }
 }
 
+
+/* Cancellation & Refund Modals */
+.booking-status-cancelled {
+    background-color: #333;
+    color: #888;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.cancel-ticket-btn {
+    background: transparent;
+    border: 1px solid #888;
+    color: #888;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: 0.2s;
+}
+
+.cancel-ticket-btn:hover {
+    border-color: #e50914;
+    color: #e50914;
+}
+
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    color: white;
+}
+
+.modal-content .close {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+.modal-content .close:hover { color: white; }
+
