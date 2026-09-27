@@ -73,13 +73,17 @@ app.post("/api/send-ticket", async function (req, res) {
             encodeURIComponent(qrData);
 
         // ── Download QR image for inline attachment ──
-        const qrResponse = await fetch(qrUrl);
-
-        if (!qrResponse.ok) {
-            throw new Error("Failed to generate QR code image.");
-        }
-
-        const qrBuffer = Buffer.from(await qrResponse.arrayBuffer());
+        const https = require("https");
+        const qrBuffer = await new Promise((resolve, reject) => {
+            https.get(qrUrl, (response) => {
+                if (response.statusCode !== 200) {
+                    return reject(new Error("Failed to generate QR code image. Status: " + response.statusCode));
+                }
+                const chunks = [];
+                response.on("data", (chunk) => chunks.push(chunk));
+                response.on("end", () => resolve(Buffer.concat(chunks)));
+            }).on("error", reject);
+        });
 
         // ── Build HTML email ────────────────
         const htmlEmail = `
@@ -219,8 +223,9 @@ app.post("/api/send-ticket", async function (req, res) {
         res.json({ success: true, message: "E-ticket sent to " + email });
 
     } catch (error) {
-        console.error("❌ Email send error:", error.message);
-        res.status(500).json({ success: false, message: error.message });
+        console.error("❌ Email send error details:");
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message || "Failed to send email" });
     }
 });
 
