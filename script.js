@@ -291,10 +291,10 @@ function loadCart() {
         const row = document.createElement("article");
         row.className = "cart-item";
         row.innerHTML =
-            "<div><h3></h3><p>Ticket price: â‚¹</p></div>" +
+            "<div><h3></h3><p>Ticket price: ₹</p></div>" +
             "<div class='cart-actions'><button class='cart-book'>Choose showtime</button><button class='cart-remove'>Remove</button></div>";
         row.querySelector("h3").textContent = item.movie;
-        row.querySelector("p").textContent = "Ticket price: â‚¹" + item.price;
+        row.querySelector("p").textContent = "Ticket price: ₹" + item.price;
         row.querySelector(".cart-book").addEventListener("click", function () {
             bookFromCart(item.movie, item.price);
         });
@@ -304,7 +304,7 @@ function loadCart() {
         cartList.appendChild(row);
     });
 
-    cartTotal.textContent = "â‚¹" + cart.reduce(function (sum, item) {
+    cartTotal.textContent = "₹" + cart.reduce(function (sum, item) {
         return sum + item.price;
     }, 0);
     updateCartCount();
@@ -547,19 +547,19 @@ function createSeats() {
 
     // The layout based on the provided design
     const layout = [
-        { category: "RECLINER ROWS: â‚¹280", rows: [{ label: "K", start: 3, end: 11 }] },
-        { category: "PRIME ROWS: â‚¹170", rows: [
+        { category: "RECLINER ROWS: ₹280", rows: [{ label: "K", start: 3, end: 11 }] },
+        { category: "PRIME ROWS: ₹170", rows: [
             { label: "J", start: 2, end: 15 },
             { label: "H", start: 1, end: 15, occupied: [1,2,3,4,5,6,7,8] } // X marks in screenshot
         ]},
-        { category: "EXTRA LEGROOM ROWS: â‚¹200", rows: [{ label: "G", start: 2, end: 15 }] },
-        { category: "CLASSIC PLUS ROWS: â‚¹150", rows: [
+        { category: "EXTRA LEGROOM ROWS: ₹200", rows: [{ label: "G", start: 2, end: 15 }] },
+        { category: "CLASSIC PLUS ROWS: ₹150", rows: [
             { label: "F", start: 1, end: 12 },
             { label: "E", start: 1, end: 12 },
             { label: "D", start: 1, end: 12 },
             { label: "C", start: 1, end: 12 }
         ]},
-        { category: "CLASSIC ROWS: â‚¹105", rows: [
+        { category: "CLASSIC ROWS: ₹105", rows: [
             { label: "B", start: 1, end: 12 },
             { label: "A", start: 1, end: 12 }
         ]}
@@ -913,7 +913,7 @@ function loadConfirmation() {
             encodeURIComponent(qrData);
     }
 
-    // â”€â”€ Automatically send the e-ticket email â”€â”€
+    // ── Automatically send the e-ticket email ──
     sendTicketEmail();
 }
 
@@ -931,7 +931,7 @@ async function sendTicketEmail() {
     const sendBtn = document.getElementById("sendEmailBtn");
 
     if (!email || bookingId === "-") {
-        if (statusEl) statusEl.textContent = "âš  Cannot send â€” missing email or booking.";
+        if (statusEl) statusEl.textContent = "⚠️ Cannot send — missing email or booking.";
         return;
     }
 
@@ -946,7 +946,7 @@ async function sendTicketEmail() {
 
     // Show sending state
     if (statusEl) {
-        statusEl.textContent = "ðŸ“§ Sending e-ticket to " + email + "...";
+        statusEl.textContent = "📧 Sending e-ticket to " + email + "...";
         statusEl.className = "email-status sending";
     }
     if (sendBtn) sendBtn.disabled = true;
@@ -990,10 +990,10 @@ async function sendTicketEmail() {
         });
 
         if (statusEl) {
-            statusEl.textContent = "âœ… E-ticket sent successfully to " + email;
+            statusEl.textContent = "✅ E-ticket sent successfully to " + email;
             statusEl.className = "email-status success";
         }
-        if (sendBtn) sendBtn.textContent = "âœ‰ Resend E-Ticket";
+        if (sendBtn) sendBtn.textContent = "✉ Resend E-Ticket";
     } catch (error) {
         console.error("EmailJS send error:", error);
         
@@ -1039,7 +1039,7 @@ function sendTicketByGmail() {
         "Date: " + date + "\n" +
         "Time: " + time + "\n" +
         "Seats: " + seats.join(", ") + "\n" +
-        "Total: â‚¹" + total + "\n\n" +
+        "Total: ₹" + total + "\n\n" +
         "Thank you for booking with CineBook!";
 
     const gmailURL =
