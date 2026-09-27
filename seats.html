@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Seats - CineBook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Cine<span>Book</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="booking.html">Back</a>
+    </nav>
+    <button class="logout-btn" id="logoutButton" onclick="logoutUser()" hidden>Sign out</button>
+</header>
+
+<section class="page-section">
+    <div class="section-title">
+        <p>CHOOSE YOUR SEATS</p>
+        <h2>Select Seats</h2>
+    </div>
+
+    <div class="seat-container">
+        <div class="screen">SCREEN</div>
+
+        <div class="seat-info">
+            <span><i class="available"></i> Available</span>
+            <span><i class="selected"></i> Selected</span>
+            <span><i class="occupied"></i> Occupied</span>
+        </div>
+
+        <div class="seats" id="seats"></div>
+
+        <div class="seat-summary">
+            <div>
+                <p>Selected Seats</p>
+                <h3 id="selectedSeats">None</h3>
+            </div>
+            <div>
+                <p>Total</p>
+                <h3>₹<span id="seatTotal">0</span></h3>
+            </div>
+            <button onclick="goToPayment()">Continue →</button>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
+<script>createSeats();</script>
+</body>
+</html>

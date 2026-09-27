@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - CineBook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Cine<span>Book</span></div>
+    <button class="logout-btn" id="logoutButton" onclick="logoutUser()" hidden>Sign out</button>
+</header>
+
+<section class="page-section">
+    <div class="confirmation">
+
+        <div class="success-icon">✓</div>
+        <h1>Booking Confirmed!</h1>
+        <p class="confirmation-text">Your movie ticket has been booked successfully.</p>
+
+        <div class="ticket">
+
+            <div class="ticket-details">
+                <p class="ticket-label">BOOKING CONFIRMED</p>
+                <h2>CineBook</h2>
+
+                <div class="booking-info">
+                    <div><span>Movie</span><strong id="confirmMovie">-</strong></div>
+                    <div><span>Theatre</span><strong id="confirmTheatre">-</strong></div>
+                    <div><span>Screen</span><strong id="confirmScreen">-</strong></div>
+                    <div><span>Date</span><strong id="confirmDate">-</strong></div>
+                    <div><span>Time</span><strong id="confirmTime">-</strong></div>
+                    <div><span>Seats</span><strong id="confirmSeats">-</strong></div>
+                    <div><span>Email</span><strong id="confirmEmail">-</strong></div>
+                    <div><span>Payment</span><strong id="confirmPayment">-</strong></div>
+                    <div><span>Total</span><strong>₹<span id="confirmTotal">0</span></strong></div>
+                </div>
+
+                <p class="booking-id">
+                    Booking ID: <strong id="bookingId">-</strong>
+                </p>
+            </div>
+
+            <div class="qr-section">
+                <img id="qrCode" src="" alt="Ticket QR Code">
+                <p>Scan at cinema entrance</p>
+            </div>
+        </div>
+
+        <p id="emailStatus" class="email-status sending">📧 Sending e-ticket to your email...</p>
+
+        <div class="confirmation-buttons">
+            <button onclick="window.print()">🖨 Print Ticket</button>
+            <button id="sendEmailBtn" onclick="sendTicketEmail()">✉ Resend E-Ticket</button>
+            <button onclick="sendTicketByGmail()">📨 Open in Gmail</button>
+            <a href="index.html">Back to Home</a>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
+<script>loadConfirmation();</script>
+</body>
+</html>

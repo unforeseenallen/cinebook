@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tickets - CineBook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="booking-progress">
+
+    <div class="progress-step active">
+        <span>1</span>
+        <p>Movie</p>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>2</span>
+        <p>Showtime</p>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>3</span>
+        <p>Seats</p>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>4</span>
+        <p>Payment</p>
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>5</span>
+        <p>Ticket</p>
+    </div>
+
+</div>
+
+
+
+<header>
+    <div class="logo">Cine<span>Book</span></div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#movies">Movies</a>
+    </nav>
+    <button class="logout-btn" id="logoutButton" onclick="logoutUser()" hidden>Sign out</button>
+</header>
+
+<section class="page-section">
+    <div class="section-title">
+        <p>BOOK YOUR TICKETS</p>
+        <h2>Select Show</h2>
+    </div>
+
+    <div class="booking-page">
+        <div class="booking-form">
+
+            <label>Movie</label>
+            <select id="movie">
+                <option value="">Select Movie</option>
+                <option value="Khalifa">Khalifa</option>
+                <option value="Spiderman Brand New Day">Spiderman Brand New Day</option>
+                <option value="Jailer2">Jailer2</option>
+                <option value="Im Game">Im Game</option>
+                <option value="Bethlehem Kudumba Unit">Bethlehem Kudumba Unit</option>
+                <option value="Toxic">Toxic</option>
+                <option value="Avengers End Game encore">Avengers End Game encore</option>
+                
+
+                 <!-- Coming Soon -->
+    <option value="Scene">Scene</option>
+    <option value="Dooms Day">Dooms Day</option>
+                
+                
+            </select>
+
+            <label>Theatre</label>
+            <select id="theatre">
+                <option value="">Select Theatre</option>
+            </select>
+
+            <label>Screen</label>
+            <select id="screen">
+                <option value="">Select Screen</option>
+            </select>
+
+            <label>Date</label>
+            <input type="date" id="date">
+
+            <label>Show Time</label>
+            <select id="time">
+                <option value="">Select Show Time</option>
+            </select>
+            <p class="show-availability" id="showAvailability">Select a movie to view its available theatres and shows.</p>
+
+            <button class="continue-btn" onclick="goToSeats()">Continue to Seats →</button>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
+<script>loadBooking();</script>
+</body>
+</html>

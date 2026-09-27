@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - CineBook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Cine<span>Book</span></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#movies">Movies</a>
+            <a href="cart.html">My Bookings <span class="cart-count" id="cartCount">0</span></a>
+        </nav>
+        <button class="logout-btn" id="logoutButton" onclick="logoutUser()" hidden>Sign out</button>
+    </header>
+
+    <section class="page-section">
+        <div class="section-title">
+            <p>YOUR CINEMA ACCOUNT</p>
+            <h2>My Bookings</h2>
+        </div>
+        <div class="cart-page">
+            <section class="bookings-section">
+                <h3 class="cart-heading">My confirmed movies</h3>
+                <p class="recent-bookings-note">Your five most recent confirmed movie tickets.</p>
+                <div class="empty-cart" id="emptyBookings">
+                    <h3>No confirmed movies yet</h3>
+                    <p>Your latest booked films will appear here after payment.</p>
+                </div>
+                <div class="bookings-list" id="bookingsList"></div>
+            </section>
+
+            <section class="saved-section">
+                <h3 class="cart-heading">Saved movies</h3>
+            <div class="empty-cart" id="emptyCart">
+                <h3>Your booking list is empty</h3>
+                <p>Add a movie and choose a showtime when you are ready.</p>
+                <a href="index.html#movies">Browse movies</a>
+            </div>
+            <div class="cart-list" id="cartList"></div>
+            <div class="cart-total"><span>Saved ticket value</span><strong id="cartTotal">₹0</strong></div>
+            </section>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>loadCart();</script>
+</body>
+</html>

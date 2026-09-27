@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook - Cinema Booking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         CINEMATIC INTRO
+    ================================= -->
+
+    <div class="cinematic-intro" id="cinematicIntro">
+
+        <div class="intro-content">
+
+            <div class="intro-logo">
+                Cine<span>Book</span>
+            </div>
+
+            <p class="intro-tagline">
+                YOUR MOVIE. YOUR SEAT. YOUR EXPERIENCE.
+            </p>
+
+            <button class="enter-btn" onclick="enterCineBook()">
+                🎬 ENTER CINEBOOK
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         HEADER
+    ================================= -->
+
+    <header>
+
+        <div class="logo">
+            Cine<span>Book</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="#movies">Movies</a>
+            <a href="cart.html">
+                My Bookings <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </nav>
+
+        <button class="login-btn" id="loginButton" onclick="openLogin()">
+            Login
+        </button>
+        <button class="logout-btn" id="logoutButton" onclick="logoutUser()" hidden>
+            Sign out
+        </button>
+
+    </header>
+
+
+    <!-- ================================
+         HERO SECTION
+    ================================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="small-title">
+                WELCOME TO CINEBOOK
+            </p>
+
+            <h1>
+                Your Movie.<br>
+                Your Seat.<br>
+                Your Experience.
+            </h1>
+
+            <p>
+                Book movie tickets easily and enjoy
+                the ultimate cinema experience.
+            </p>
+
+            <a href="#movies" class="primary-btn">
+                Explore Movies
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         NOW SHOWING
+    ================================= -->
+
+    <section class="movies-section" id="movies">
+
+        <div class="section-title">
+
+            <p>NOW SHOWING</p>
+
+            <h2>Movies</h2>
+
+        </div>
+
+
+        <div class="movie-grid">
+
+
+            <!-- KHALIFA -->
+
+            <div class="movie-card">
+
+                <img src="images/khalifa2.jpg"
+                     alt="Khalifa">
+
+                <div class="movie-info">
+
+                    <h3>Khalifa</h3>
+
+                    <p>
+                        Thriller • Action
+                    </p>
+
+                    <p class="movie-story">
+                        A relentless agent races to uncover a conspiracy before it reaches the city.
+                    </p>
+
+                    <span>
+                        ⭐ 8.2
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Khalifa', 200)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Khalifa', 200)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/8NiMCt2o-uQ?si=PLhuezSY6bxtC4Ve')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SPIDERMAN -->
+
+            <div class="movie-card">
+
+                <img src="images/spider.jpg"
+                     alt="Spiderman Brand New Day">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Spiderman Brand New Day
+                    </h3>
+
+                    <p>
+                        Superhero • Action
+                    </p>
+
+                    <p class="movie-story">
+                        Peter faces a dangerous new chapter while trying to protect the people he loves.
+                    </p>
+
+                    <span>
+                        ⭐ 8.2
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Spiderman Brand New Day', 180)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Spiderman Brand New Day', 180)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/62bIsvRcPv0?si=__EAdfM0Va_ZGOxP')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- JAILER 2 -->
+
+            <div class="movie-card">
+
+                <img src="images/jailer2.jpg"
+                     alt="Jailer2">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Jailer2
+                    </h3>
+
+                    <p>
+                        Action • Crime
+                    </p>
+
+                    <p class="movie-story">
+                        A retired jailer is drawn back into a violent world to protect his family.
+                    </p>
+
+                    <span>
+                        ⭐ 8.7
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Jailer2', 220)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Jailer2', 220)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/ugzPkXEqff4?si=eTkLPZcOGtsrAljq')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BETHLEHEM KUDUMBA UNIT -->
+
+            <div class="movie-card">
+
+                <img src="images/BKU.jpg"
+                     alt="Bethlehem Kudumba Unit">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Bethlehem Kudumba Unit
+                    </h3>
+
+                    <p>
+                        Romance • Comedy
+                    </p>
+
+                    <p class="movie-story">
+                        A warm family gathering turns into a charming story of love, laughter, and second chances.
+                    </p>
+
+                    <span>
+                        ⭐ 8.0
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Bethlehem Kudumba Unit', 160)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Bethlehem Kudumba Unit', 160)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/fk0JHh1P9H0?si=Boyq5mxa7N3_9WsX')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- IM GAME -->
+
+            <div class="movie-card">
+
+                <img src="images/im game1.jpg"
+                     alt="Im Game">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Im Game
+                    </h3>
+
+                    <p>
+                        Action • Crime
+                    </p>
+
+                    <p class="movie-story">
+                        A rookie is pulled into a high-stakes game where every choice has a price.
+                    </p>
+
+                    <span>
+                        ⭐ 5.7
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Im Game', 220)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Im Game', 220)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/2E4ihxaCDL4?si=Mdllb3czyb1ViROC')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOXIC -->
+
+            <div class="movie-card">
+
+                <img src="images/toxic.jpg"
+                     alt="Toxic">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Toxic
+                    </h3>
+
+                    <p>
+                        Action • Crime
+                    </p>
+
+                    <p class="movie-story">
+                        A feared gangster returns, forcing old enemies to confront their darkest secrets.
+                    </p>
+
+                    <span>
+                        ⭐ 3.7
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Toxic', 220)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Toxic', 220)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/Nm2zM-YdqO0?si=Q1pkC586IKl2geJw')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AVENGERS END GAME -->
+
+            <div class="movie-card">
+
+                <img src="images/Avengers End Game encore.jpg"
+                     alt="Avengers End Game encore">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Avengers End Game encore
+                    </h3>
+
+                    <p>
+                        Action • Thriller
+                    </p>
+
+                    <p class="movie-story">
+                        The Avengers reunite for one final mission with the fate of the universe at stake.
+                    </p>
+
+                    <span>
+                        ⭐ 8.7
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Avengers End Game encore', 220)">
+                            Book Now
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Avengers End Game encore', 220)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/L2NAh3CIdig?si=vbEfVnFq_rXcukQI')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================
+         COMING SOON
+    ================================= -->
+
+    <section class="movies-section" id="coming-soon">
+
+        <div class="section-title">
+
+            <p>
+                COMING SOON
+            </p>
+
+            <h2>
+                Upcoming Movies
+            </h2>
+
+        </div>
+
+
+        <div class="movie-grid">
+
+
+            <!-- SCENE -->
+
+            <div class="movie-card">
+
+                <img src="images/scene.jpg"
+                     alt="Scene">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Scene
+                    </h3>
+
+                    <p>
+                        Action • Thriller
+                    </p>
+
+                    <div class="release-date">
+                        📅 Release: 18 December 2026
+                    </div>
+
+                    <p class="movie-story">
+                        A gripping journey unfolds when an unexpected
+                        incident pulls ordinary lives into a dangerous mystery.
+                    </p>
+
+                    <span class="coming-label">
+                        COMING SOON
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Scene', 200)">
+                            Pre-Book
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Scene', 200)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/_nuRAflabx8?si=QRPdj6ZiXt5nqtes')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DOOMS DAY -->
+
+            <div class="movie-card">
+
+                <img src="images/Dooms Day.jpg"
+                     alt="Dooms Day">
+
+                <div class="movie-info">
+
+                    <h3>
+                        Dooms Day
+                    </h3>
+
+                    <p>
+                        Action • Superhero
+                    </p>
+
+                    <div class="release-date">
+                        📅 Release: 24 December 2026
+                    </div>
+
+                    <p class="movie-story">
+                        As a powerful new threat emerges, heroes must unite
+                        to face a danger capable of changing the fate of the world.
+                    </p>
+
+                    <span class="coming-label">
+                        COMING SOON
+                    </span>
+
+                    <div class="movie-buttons">
+
+                        <button onclick="startBooking('Dooms Day', 300)">
+                            Pre-Book
+                        </button>
+                        <button class="cart-btn" onclick="addToCart('Dooms Day', 300)">+ Cart</button>
+
+                        <button class="trailer-btn"
+                            onclick="openTrailer('https://youtu.be/X1aFkAkFASk?si=WqJfgriCx2nRL6y5')">
+                            ▶ Trailer
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         ADVERTISE WITH US
+    ================================= -->
+
+    <section class="advertise-section">
+        <div class="advertise-copy">
+            <p>ADVERTISE WITH CINEBOOK</p>
+            <h2>Put your brand on the big screen.</h2>
+            <p class="advertise-text">
+                Reach an engaged audience during theatre break time. Share your brand film,
+                offer, or launch message before the show resumes at our partner cinemas.
+            </p>
+            <div class="advertise-points">
+                <span>✓ Cinema break-time slots</span>
+                <span>✓ Local audience targeting</span>
+                <span>✓ Flexible campaign packages</span>
+            </div>
+            <a class="advertise-btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=cinebookads%40gmail.com&amp;su=CineBook%20Theatre%20Advertisement%20Enquiry" target="_blank" rel="noopener noreferrer">
+                Give your ads to us →
+            </a>
+        </div>
+        <div class="advertise-screen">
+            <div class="advertise-screen-frame">
+                <span>YOUR BRAND</span>
+                <strong>ON THE BIG SCREEN</strong>
+                <small>THEATRE BREAK-TIME ADVERTISEMENT</small>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- ================================
+         TRAILER MODAL
+    ================================= -->
+
+    <div class="trailer-modal" id="trailerModal">
+
+        <div class="trailer-container">
+
+            <button class="trailer-close"
+                    onclick="closeTrailer()">
+                ×
+            </button>
+
+            <iframe
+                id="trailerFrame"
+                src=""
+                title="Movie Trailer"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+
+            <a
+                id="youtubeButton"
+                class="youtube-button"
+                href="#"
+                target="_blank">
+                ▶ Watch on YouTube
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         LOGIN MODAL
+    ================================= -->
+
+    <div class="login-modal" id="loginModal">
+
+        <div class="login-box">
+
+            <button class="close-btn"
+                    onclick="closeLogin()">
+                ×
+            </button>
+
+            <div class="login-logo">
+                Cine<span>Book</span>
+            </div>
+
+            <h2 id="loginTitle">Welcome to CineBook</h2>
+
+            <p class="login-subtitle" id="loginSubtitle">Sign in to book your favourite movies.</p>
+
+
+            <form onsubmit="loginUser(event)">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required>
+
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                    required>
+
+
+                <button class="login-submit" id="loginSubmit" type="submit">Login</button>
+
+            </form>
+
+
+            <p class="register-text" id="accountSwitch">
+                Don't have an account?
+                <a href="#" onclick="startRegistration(); return false;">Register / use another email</a>
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         FOOTER
+    ================================= -->
+
+    <footer>
+
+        <div class="logo">
+            Cine<span>Book</span>
+        </div>
+
+        <p>
+            © 2026 CineBook. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- ================================
+         JAVASCRIPT
+    ================================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

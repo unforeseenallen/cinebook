@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - CineBook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">Cine<span>Book</span></div>
+    <button class="logout-btn" id="logoutButton" onclick="logoutUser()" hidden>Sign out</button>
+</header>
+
+<section class="page-section">
+    <div class="section-title">
+        <p>SECURE PAYMENT</p>
+        <h2>Payment</h2>
+    </div>
+
+    <div class="payment-container">
+
+        <div class="payment-summary">
+            <h3>Booking Summary</h3>
+
+            <div class="summary-row"><span>Movie</span><strong id="payMovie">-</strong></div>
+            <div class="summary-row"><span>Theatre</span><strong id="payTheatre">-</strong></div>
+            <div class="summary-row"><span>Screen</span><strong id="payScreen">-</strong></div>
+            <div class="summary-row"><span>Date</span><strong id="payDate">-</strong></div>
+            <div class="summary-row"><span>Time</span><strong id="payTime">-</strong></div>
+            <div class="summary-row"><span>Seats</span><strong id="paySeats">-</strong></div>
+            <div class="summary-row"><span>Email</span><strong id="payEmail">-</strong></div>
+
+            <hr>
+
+            <div class="summary-row total-row">
+                <span>Total</span>
+                <strong>₹<span id="payTotal">0</span></strong>
+            </div>
+        </div>
+
+        <div class="payment-box">
+            <h3>Choose Payment Method</h3>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="UPI" checked onchange="showUPI()">
+                📱 UPI
+            </label>
+
+            <div class="upi-payment" id="upiPayment">
+                <h3>Scan & Pay</h3>
+                <p>Scan this QR code using Google Pay, PhonePe, Paytm or another UPI app.</p>
+
+                <img id="upiQrCode" src="images/QR CODE.jpg" alt="UPI Payment QR Code" class="upi-qr">
+
+                <p class="upi-note">After completing payment, click the button below.</p>
+            </div>
+
+            <div class="friend-payment">
+                <div>
+                    <p class="friend-payment-title">Pay with a friend</p>
+                    <p class="friend-payment-text">Share this payment request so a friend can pay the full ticket amount for you.</p>
+                </div>
+                <div class="friend-payment-actions">
+                    <button type="button" class="share-payment-btn" onclick="sharePaymentRequest()">↗ Share payment request</button>
+                    <button type="button" class="copy-payment-btn" onclick="copyPaymentLink()">Copy UPI link</button>
+                </div>
+            </div>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="Card" onchange="hideUPI()">
+                💳 Credit / Debit Card
+            </label>
+
+            <label class="payment-option">
+                <input type="radio" name="payment" value="Net Banking" onchange="hideUPI()">
+                🏦 Net Banking
+            </label>
+
+            <button class="continue-btn" onclick="completePayment()">
+                Payment Completed →
+            </button>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
+<script>loadPayment();</script>
+</body>
+</html>
