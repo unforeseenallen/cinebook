@@ -1364,3 +1364,55 @@ body {
 }
 .modal-content .close:hover { color: white; }
 
+
+/* Premium Cancel Modal */
+.modal-content {
+    background: linear-gradient(145deg, #1a1a2e, #16213e);
+    border: 1px solid #0f3460;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(229, 9, 20, 0.2);
+    padding: 25px;
+    text-align: center;
+}
+.modal-content h2 {
+    color: #e50914;
+    margin-top: 0;
+    font-size: 24px;
+}
+.modal-content p {
+    color: #e0e0e0;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+.modal-content h4 {
+    color: #fff;
+    margin: 20px 0 15px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.modal-content button {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.modal-content .cart-book {
+    background: linear-gradient(90deg, #e50914, #ff416c);
+    border: none;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+}
+.modal-content .cart-book:hover {
+    box-shadow: 0 4px 25px rgba(229, 9, 20, 0.6);
+    transform: translateY(-2px);
+}
+.modal-content .cart-remove {
+    border: 2px solid #e50914 !important;
+    background: transparent !important;
+    color: #fff !important;
+}
+.modal-content .cart-remove:hover {
+    background: rgba(229, 9, 20, 0.1) !important;
+}
+

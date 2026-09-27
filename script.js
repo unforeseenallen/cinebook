@@ -1,4 +1,4 @@
-/* =========================================
+﻿/* =========================================
    CINEBOOK BOOKING SYSTEM
 ========================================= */
 
@@ -26,7 +26,7 @@ function logoutUser() {
     ["movie", "price", "theatre", "screen", "date", "time", "selectedSeats", "bookingId", "paymentMethod", "paymentStatus", "pendingMovie", "pendingPrice"].forEach(function (key) {
         localStorage.removeItem(key);
     });
-    window.location.href = "index.html";
+    
 }
 
 function loginUser(event) {
@@ -230,7 +230,7 @@ function removeFromCart(movie) {
         return item.movie !== movie;
     });
     saveCart(cart);
-    loadCart();
+    window.location.href = "index.html";
 }
 
 function bookFromCart(movie, price) {
@@ -262,14 +262,14 @@ function loadCart() {
         const statusClass = isCancelled ? "booking-status-cancelled" : "booking-status";
         const statusText = isCancelled ? "CANCELLED" : "CONFIRMED";
         
-        let cancelBtnHtml = "";
+            cancelBtnHtml = '<button class="cancel-ticket-btn" onclick="promptCancelBooking(' + String.fromCharCode(39) + booking.id + String.fromCharCode(39) + ', ' + booking.total + ')">Cancel</button>';
         if (!isCancelled) {
-            cancelBtnHtml = "<button class='cancel-ticket-btn' onclick='promptCancelBooking(\"" + booking.id + "\", " + booking.total + ")'>Cancel</button>";
+            cancelBtnHtml = '<button class="cancel-ticket-btn" onclick="promptCancelBooking(' + String.fromCharCode(39) + booking.id + String.fromCharCode(39) + ', ' + booking.total + ')">Cancel</button>';
         }
         
         card.innerHTML =
             "<div><span class='" + statusClass + "'>" + statusText + "</span><h3></h3><p class='booking-meta'></p></div>" +
-            "<div class='booking-price' style='text-align:right;'>?" + booking.total + "<br><br>" + cancelBtnHtml + "</div>";
+            "<div class='booking-price' style='text-align:right;'>₹" + booking.total + "<br><br>" + cancelBtnHtml + "</div>";
             
         card.querySelector("h3").textContent = booking.movie;
         card.querySelector(".booking-meta").textContent =
@@ -291,10 +291,10 @@ function loadCart() {
         const row = document.createElement("article");
         row.className = "cart-item";
         row.innerHTML =
-            "<div><h3></h3><p>Ticket price: ₹</p></div>" +
+            "<div><h3></h3><p>Ticket price: â‚¹</p></div>" +
             "<div class='cart-actions'><button class='cart-book'>Choose showtime</button><button class='cart-remove'>Remove</button></div>";
         row.querySelector("h3").textContent = item.movie;
-        row.querySelector("p").textContent = "Ticket price: ₹" + item.price;
+        row.querySelector("p").textContent = "Ticket price: â‚¹" + item.price;
         row.querySelector(".cart-book").addEventListener("click", function () {
             bookFromCart(item.movie, item.price);
         });
@@ -304,7 +304,7 @@ function loadCart() {
         cartList.appendChild(row);
     });
 
-    cartTotal.textContent = "₹" + cart.reduce(function (sum, item) {
+    cartTotal.textContent = "â‚¹" + cart.reduce(function (sum, item) {
         return sum + item.price;
     }, 0);
     updateCartCount();
@@ -547,19 +547,19 @@ function createSeats() {
 
     // The layout based on the provided design
     const layout = [
-        { category: "RECLINER ROWS: ₹280", rows: [{ label: "K", start: 3, end: 11 }] },
-        { category: "PRIME ROWS: ₹170", rows: [
+        { category: "RECLINER ROWS: â‚¹280", rows: [{ label: "K", start: 3, end: 11 }] },
+        { category: "PRIME ROWS: â‚¹170", rows: [
             { label: "J", start: 2, end: 15 },
             { label: "H", start: 1, end: 15, occupied: [1,2,3,4,5,6,7,8] } // X marks in screenshot
         ]},
-        { category: "EXTRA LEGROOM ROWS: ₹200", rows: [{ label: "G", start: 2, end: 15 }] },
-        { category: "CLASSIC PLUS ROWS: ₹150", rows: [
+        { category: "EXTRA LEGROOM ROWS: â‚¹200", rows: [{ label: "G", start: 2, end: 15 }] },
+        { category: "CLASSIC PLUS ROWS: â‚¹150", rows: [
             { label: "F", start: 1, end: 12 },
             { label: "E", start: 1, end: 12 },
             { label: "D", start: 1, end: 12 },
             { label: "C", start: 1, end: 12 }
         ]},
-        { category: "CLASSIC ROWS: ₹105", rows: [
+        { category: "CLASSIC ROWS: â‚¹105", rows: [
             { label: "B", start: 1, end: 12 },
             { label: "A", start: 1, end: 12 }
         ]}
@@ -913,7 +913,7 @@ function loadConfirmation() {
             encodeURIComponent(qrData);
     }
 
-    // ── Automatically send the e-ticket email ──
+    // â”€â”€ Automatically send the e-ticket email â”€â”€
     sendTicketEmail();
 }
 
@@ -931,7 +931,7 @@ async function sendTicketEmail() {
     const sendBtn = document.getElementById("sendEmailBtn");
 
     if (!email || bookingId === "-") {
-        if (statusEl) statusEl.textContent = "⚠ Cannot send — missing email or booking.";
+        if (statusEl) statusEl.textContent = "âš  Cannot send â€” missing email or booking.";
         return;
     }
 
@@ -946,7 +946,7 @@ async function sendTicketEmail() {
 
     // Show sending state
     if (statusEl) {
-        statusEl.textContent = "📧 Sending e-ticket to " + email + "...";
+        statusEl.textContent = "ðŸ“§ Sending e-ticket to " + email + "...";
         statusEl.className = "email-status sending";
     }
     if (sendBtn) sendBtn.disabled = true;
@@ -990,10 +990,10 @@ async function sendTicketEmail() {
         });
 
         if (statusEl) {
-            statusEl.textContent = "✅ E-ticket sent successfully to " + email;
+            statusEl.textContent = "âœ… E-ticket sent successfully to " + email;
             statusEl.className = "email-status success";
         }
-        if (sendBtn) sendBtn.textContent = "✉ Resend E-Ticket";
+        if (sendBtn) sendBtn.textContent = "âœ‰ Resend E-Ticket";
     } catch (error) {
         console.error("EmailJS send error:", error);
         
@@ -1001,7 +1001,7 @@ async function sendTicketEmail() {
         alert("EmailJS Error: " + (error.text || error.message || JSON.stringify(error)));
         
         if (statusEl) {
-            statusEl.textContent = "❌ Could not send email. Click below to retry.";
+            statusEl.textContent = "âŒ Could not send email. Click below to retry.";
             statusEl.className = "email-status error";
         }
     }
@@ -1039,7 +1039,7 @@ function sendTicketByGmail() {
         "Date: " + date + "\n" +
         "Time: " + time + "\n" +
         "Seats: " + seats.join(", ") + "\n" +
-        "Total: ₹" + total + "\n\n" +
+        "Total: â‚¹" + total + "\n\n" +
         "Thank you for booking with CineBook!";
 
     const gmailURL =
@@ -1169,19 +1169,19 @@ function promptCancelBooking(bookingId, amount) {
     modal.id = "refundModal";
     modal.style.display = "flex";
     
-    modal.innerHTML = `
+    modal.innerHTML = '
         <div class="modal-content">
             <span class="close" onclick="closeRefundModal()">&times;</span>
             <h2>Cancel Ticket</h2>
             <p>Are you sure you want to cancel booking <b>${bookingId}</b>?</p>
-            <p>Refund Amount: <b>?${amount}</b></p>
+            <p>Refund Amount: <b>₹${amount}</b></p>
             <h4 style="margin-top:20px; margin-bottom:10px;">Choose Refund Destination:</h4>
             <div style="display:flex; flex-direction:column; gap:10px;">
                 <button class="cart-book" style="width:100%" onclick="processRefund('${bookingId}', ${amount}, 'wallet')">CineBook Wallet (Instant & can be used next time)</button>
                 <button class="cart-remove" style="width:100%; border:1px solid #e50914; background:transparent; color:#e50914;" onclick="processRefund('${bookingId}', ${amount}, 'bank')">Direct to Bank (Takes up to 24 hours)</button>
             </div>
         </div>
-    `;
+    ';
     
     document.body.appendChild(modal);
 }
@@ -1202,9 +1202,9 @@ function processRefund(bookingId, amount, method) {
         
         if (method === "wallet") {
             updateWalletBalance(amount);
-            alert("Ticket cancelled successfully! ?" + amount + " has been added to your CineBook Wallet instantly.");
+            alert("Ticket cancelled successfully! ₹" + amount + " has been added to your CineBook Wallet instantly.");
         } else {
-            alert("Ticket cancelled successfully! ?" + amount + " will be refunded to your bank account within 24 hours.");
+            alert("Ticket cancelled successfully! ₹" + amount + " will be refunded to your bank account within 24 hours.");
         }
     }
     
@@ -1212,7 +1212,7 @@ function processRefund(bookingId, amount, method) {
     
     // Reload UI if on cart page
     if (document.getElementById("bookingsList")) {
-        loadCart();
+        window.location.href = "index.html";
     }
 }
 
@@ -1233,7 +1233,7 @@ function toggleWalletUsage() {
             document.getElementById("payTotal").innerText = "0 (Paid via Wallet)";
         } else {
             walletUsedAmount = balance;
-            document.getElementById("payTotal").innerText = (originalTotal - balance) + " (?" + balance + " from Wallet)";
+            document.getElementById("payTotal").innerText = (originalTotal - balance) + " (₹" + balance + " from Wallet)";
         }
     } else {
         walletUsedAmount = 0;
@@ -1243,4 +1243,34 @@ function toggleWalletUsage() {
 
 
 
+
+
+
+/* =========================================
+   WALLET HEADER INJECTION
+========================================= */
+document.addEventListener("DOMContentLoaded", function() {
+    const header = document.querySelector("header");
+    if (header) {
+        const bal = getWalletBalance();
+        const loggedIn = localStorage.getItem("cinebookLoggedIn");
+        
+        if (loggedIn && bal > 0) {
+            const walletDiv = document.createElement("div");
+            walletDiv.id = "globalWalletDisplay";
+            walletDiv.innerHTML = `<span style="background: rgba(229, 9, 20, 0.15); border: 1px solid #e50914; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 13px; font-weight: bold; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M22 12h-4"/></svg>
+                ₹${bal}
+            </span>`;
+            
+            // Insert before the logout button or at the end of header
+            const logoutBtn = document.getElementById("logoutButton");
+            if (logoutBtn) {
+                header.insertBefore(walletDiv, logoutBtn);
+            } else {
+                header.appendChild(walletDiv);
+            }
+        }
+    }
+});
 
