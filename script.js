@@ -850,7 +850,7 @@ async function sendTicketEmail() {
     }
     if (sendBtn) sendBtn.disabled = true;
 
-    // Generate QR Code URL using QuickChart (friendly to Gmail's image proxy)
+    // Generate QR Code URL using QuickChart without the '&' character to prevent EmailJS from breaking the URL
     const qrData = [
         "CINEBOOK E-TICKET",
         "Booking ID: " + bookingId,
@@ -862,7 +862,7 @@ async function sendTicketEmail() {
         "Seats: " + seats.join(", "),
         "Email: " + email
     ].join("\n");
-    const qrUrl = "https://quickchart.io/qr?size=200&text=" + encodeURIComponent(qrData);
+    const qrUrl = "https://quickchart.io/qr?text=" + encodeURIComponent(qrData);
 
     try {
         // REPLACE THESE 3 VALUES WITH YOUR EMAILJS KEYS
