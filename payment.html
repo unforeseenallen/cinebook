@@ -69,14 +69,49 @@
             </div>
 
             <label class="payment-option">
-                <input type="radio" name="payment" value="Card" onchange="hideUPI()">
+                <input type="radio" name="payment" value="Card" onchange="showCard()">
                 💳 Credit / Debit Card
             </label>
+            
+            <div class="card-payment" id="cardPayment" style="display:none;">
+                <div class="input-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="19">
+                </div>
+                <div class="card-details-row">
+                    <div class="input-group">
+                        <label>Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    <div class="input-group">
+                        <label>CVV</label>
+                        <input type="password" placeholder="•••" maxlength="4">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Cardholder Name</label>
+                    <input type="text" placeholder="John Doe">
+                </div>
+            </div>
 
             <label class="payment-option">
-                <input type="radio" name="payment" value="Net Banking" onchange="hideUPI()">
+                <input type="radio" name="payment" value="Net Banking" onchange="showNetBanking()">
                 🏦 Net Banking
             </label>
+            
+            <div class="netbanking-payment" id="netbankingPayment" style="display:none;">
+                <div class="input-group">
+                    <label>Select your Bank</label>
+                    <select>
+                        <option value="">Choose a bank...</option>
+                        <option value="sbi">State Bank of India</option>
+                        <option value="hdfc">HDFC Bank</option>
+                        <option value="icici">ICICI Bank</option>
+                        <option value="axis">Axis Bank</option>
+                        <option value="kotak">Kotak Mahindra Bank</option>
+                    </select>
+                </div>
+            </div>
 
             <button class="continue-btn" onclick="completePayment()">
                 Payment Completed →

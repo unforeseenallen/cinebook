@@ -1162,3 +1162,48 @@ body {
 .advertise-screen-frame span { display: block; color: #bbb; font-size: 11px; letter-spacing: 4px; }
 .advertise-screen-frame strong { display: block; margin: 12px 0; font-size: 27px; letter-spacing: 1px; }
 .advertise-screen-frame small { color: #e50914; font-size: 9px; letter-spacing: 2px; }
+
+/* Payment Methods Styling */
+.card-payment, .netbanking-payment {
+    background-color: #212121;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: #333;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-group input:focus, .input-group select:focus {
+    border-color: #e50914;
+    outline: none;
+}
+
+.card-details-row {
+    display: flex;
+    gap: 15px;
+}
+
+.card-details-row .input-group {
+    flex: 1;
+}
+

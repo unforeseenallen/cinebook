@@ -1007,14 +1007,32 @@ document.addEventListener("click", function (event) {
    UPI QR DISPLAY
 ========================================= */
 
+function hideAllPaymentMethods() {
+    const upi = document.getElementById("upiPayment");
+    const card = document.getElementById("cardPayment");
+    const netbanking = document.getElementById("netbankingPayment");
+    
+    if (upi) upi.style.display = "none";
+    if (card) card.style.display = "none";
+    if (netbanking) netbanking.style.display = "none";
+}
+
 function showUPI() {
+    hideAllPaymentMethods();
     const upi = document.getElementById("upiPayment");
     if (upi) upi.style.display = "block";
 }
 
-function hideUPI() {
-    const upi = document.getElementById("upiPayment");
-    if (upi) upi.style.display = "none";
+function showCard() {
+    hideAllPaymentMethods();
+    const card = document.getElementById("cardPayment");
+    if (card) card.style.display = "block";
+}
+
+function showNetBanking() {
+    hideAllPaymentMethods();
+    const netbanking = document.getElementById("netbankingPayment");
+    if (netbanking) netbanking.style.display = "block";
 }
 
 
