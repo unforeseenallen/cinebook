@@ -72,19 +72,6 @@ app.post("/api/send-ticket", async function (req, res) {
             "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
             encodeURIComponent(qrData);
 
-        // ── Download QR image for inline attachment ──
-        const https = require("https");
-        const qrBuffer = await new Promise((resolve, reject) => {
-            https.get(qrUrl, (response) => {
-                if (response.statusCode !== 200) {
-                    return reject(new Error("Failed to generate QR code image. Status: " + response.statusCode));
-                }
-                const chunks = [];
-                response.on("data", (chunk) => chunks.push(chunk));
-                response.on("end", () => resolve(Buffer.concat(chunks)));
-            }).on("error", reject);
-        });
-
         // ── Build HTML email ────────────────
         const htmlEmail = `
 <!DOCTYPE html>
@@ -179,7 +166,7 @@ app.post("/api/send-ticket", async function (req, res) {
                     <tr>
                         <td style="padding:8px 30px 20px; text-align:center;">
                             <div style="display:inline-block; background:#fff; border-radius:12px; padding:14px;">
-                                <img src="cid:ticketqr" width="180" height="180" alt="Ticket QR Code" style="display:block;" />
+                                <img src="${qrUrl}" width="180" height="180" alt="Ticket QR Code" style="display:block;" />
                             </div>
                             <p style="color:#8a8a9a; margin:10px 0 0; font-size:12px;">Scan this QR code at the cinema entrance</p>
                         </td>
@@ -207,14 +194,7 @@ app.post("/api/send-ticket", async function (req, res) {
             from: '"CineBook" <' + process.env.EMAIL_USER + '>',
             to: email,
             subject: "🎬 CineBook E-Ticket — " + bookingId,
-            html: htmlEmail,
-            attachments: [
-                {
-                    filename: "ticket-qr.png",
-                    content: qrBuffer,
-                    cid: "ticketqr"       // referenced as <img src="cid:ticketqr"> in the HTML
-                }
-            ]
+            html: htmlEmail
         };
 
         await transporter.sendMail(mailOptions);
