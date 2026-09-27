@@ -586,7 +586,7 @@ function createSeats() {
 
                 if (isOccupied) {
                     seat.classList.add("occupied-seat");
-                    seat.innerText = "×"; // show cross for occupied like in image
+                    // Keep the number, just let CSS grey it out
                 }
 
                 seat.addEventListener("click", function () {
@@ -603,15 +603,7 @@ function createSeats() {
         });
     });
 
-    // Add Curved Screen at the bottom
-    const screenDiv = document.createElement("div");
-    screenDiv.classList.add("screen-curved");
-    container.appendChild(screenDiv);
 
-    const screenText = document.createElement("div");
-    screenText.classList.add("screen-text");
-    screenText.innerText = "All eyes this way please";
-    container.appendChild(screenText);
 
     // Restore selections
     const savedSeats = JSON.parse(localStorage.getItem("selectedSeats") || "[]");
