@@ -91,6 +91,7 @@ function loginUser(event) {
         window.location.href = "booking.html";
     } else {
         alert("Login successful!");
+        window.location.href = "index.html";
     }
 }
 
