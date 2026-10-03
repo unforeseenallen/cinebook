@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #0f0f13;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .login-box {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 1px solid #0f3460;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9), 0 0 20px rgba(229, 9, 20, 0.2);
+            position: relative; /* no fixed modal wrapper */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <div class="login-logo">
+            Cine<span>Book</span>
+        </div>
+        <h2 id="loginTitle">Welcome to CineBook</h2>
+        <p class="login-subtitle" id="loginSubtitle">Sign in to book your favourite movies.</p>
+
+        <form onsubmit="loginUser(event)">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email" required>
+
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password" required>
+
+            <button class="login-submit" id="loginSubmit" type="submit">Login</button>
+        </form>
+
+        <p class="register-text" id="accountSwitch">
+            Don't have an account?
+            <a href="#" onclick="startRegistration(); return false;">Register / use another email</a>
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

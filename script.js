@@ -1,3 +1,21 @@
+
+/* =========================================
+   LOGIN GATE PROTECTION
+========================================= */
+(function() {
+    const isLoggedIn = localStorage.getItem("cinebookLoggedIn") === "true";
+    const currentPage = window.location.pathname.split("/").pop();
+    
+    // Pages that don't require redirecting TO login (i.e. already login page)
+    const isLoginPage = currentPage === "login.html" || currentPage === ""; // Wait, index.html is sometimes ""
+    
+    if (!isLoggedIn && currentPage !== "login.html") {
+        window.location.href = "login.html";
+    } else if (isLoggedIn && currentPage === "login.html") {
+        window.location.href = "index.html";
+    }
+})();
+
 ﻿/* =========================================
    CINEBOOK BOOKING SYSTEM
 ========================================= */
