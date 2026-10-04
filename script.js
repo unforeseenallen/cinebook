@@ -20,7 +20,7 @@
         if (localStorage.getItem("cinebookRole") === "admin") {
             window.location.href = "admin.html";
         } else {
-            window.location.href = "index.html";
+            
         }
     }
 })();
@@ -111,7 +111,7 @@ function loginUser(event) {
         if (localStorage.getItem("cinebookRole") === "admin") {
             window.location.href = "admin.html";
         } else {
-            window.location.href = "index.html";
+            
         }
     }
 }
@@ -290,7 +290,7 @@ function removeFromCart(movie) {
         return item.movie !== movie;
     });
     saveCart(cart);
-    window.location.href = "index.html";
+    
 }
 
 function bookFromCart(movie, price) {
@@ -1248,8 +1248,8 @@ function promptCancelBooking(bookingId, amount) {
             <p>Refund Amount: <b>₹${amount}</b></p>
             <h4 style="margin-top:20px; margin-bottom:10px;">Choose Refund Destination:</h4>
             <div style="display:flex; flex-direction:column; gap:10px;">
-                <button class="cart-book" style="width:100%" onclick="processRefund('${bookingId}', ${amount}, 'wallet')">CineBook Wallet (Instant)</button>
-                <button class="cart-remove" style="width:100%; border:1px solid #e50914; background:transparent; color:#e50914;" onclick="processRefund('${bookingId}', ${amount}, 'bank')">Direct to Bank (24 hours)</button>
+                <button class="cart-book" style="width:100%" onclick="processRefund(`${bookingId}`, ${amount}, `wallet`)">CineBook Wallet (Instant)</button>
+                <button class="cart-remove" style="width:100%; border:1px solid #e50914; background:transparent; color:#e50914;" onclick="processRefund(`${bookingId}`, ${amount}, `bank`)">Direct to Bank (24 hours)</button>
             </div>
         </div>
     `;
@@ -1285,7 +1285,7 @@ function processRefund(bookingId, amount, method) {
     if (method === "wallet") {
         window.location.href = "wallet.html";
     } else {
-        window.location.href = "index.html";
+        
     }
 }
 
@@ -1384,6 +1384,7 @@ function adminAddMovie() {
     const image = document.getElementById("mImage").value.trim();
     const rating = document.getElementById("mRating") ? document.getElementById("mRating").value.trim() : "8.0";
     const story = document.getElementById("mStory") ? document.getElementById("mStory").value.trim() : "New highly anticipated release.";
+    const category = document.getElementById("mCategory") ? document.getElementById("mCategory").value : "Now Showing";
     
     if(!title || !price || times.length === 0) {
         alert("Please fill required fields (Title, Price, Times)");
@@ -1391,7 +1392,7 @@ function adminAddMovie() {
     }
     
     const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
-    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release." });
+    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release.", category: category });
     localStorage.setItem("cinebookAddedMovies", JSON.stringify(addedMovies));
     
     alert(title + " has been successfully published!");
@@ -1427,26 +1428,49 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         
         const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
-        const grid = document.querySelector(".movie-grid");
-        if(grid) {
+        const grids = document.querySelectorAll(".movie-grid");
+        const nowShowingGrid = grids[0];
+        const upcomingGrid = grids[1];
+        
+        if(nowShowingGrid) {
             addedMovies.forEach(m => {
                 const div = document.createElement("div");
                 div.className = "movie-card";
-                div.innerHTML = `
-                    <img src="${m.image}" alt="${m.title}">
-                    <div class="movie-info">
-                        <h3>${m.title}</h3>
-                        <p>${m.details}</p>
-                        <p class="movie-story">${m.story || "New highly anticipated release."}</p>
-                        <span>⭐ ${m.rating || "8.0"}</span>
-                        <div class="movie-buttons">
-                            <button onclick="startBooking('${m.title}', ${m.price})">Book Now</button>
-                            <button class="cart-btn" onclick="addToCart('${m.title}', ${m.price})">+ Cart</button>
-                            <button class="trailer-btn" onclick="openTrailer('${m.trailer}')">Trailer</button>
+                
+                if (m.category === "Upcoming") {
+                    div.innerHTML = `
+                        <img src="${m.image}" alt="${m.title}">
+                        <div class="movie-info">
+                            <h3>${m.title}</h3>
+                            <p>${m.details}</p>
+                            <div class="release-date">Release: ${m.times.join(", ")}</div>
+                            <p class="movie-story">${m.story || "New highly anticipated release."}</p>
+                            <span class="coming-label">COMING SOON</span>
+                            <div class="movie-buttons">
+                                <button onclick="startBooking('${m.title}', ${m.price})">Pre-Book</button>
+                                <button class="cart-btn" onclick="addToCart('${m.title}', ${m.price})">+ Cart</button>
+                                <button class="trailer-btn" onclick="openTrailer('${m.trailer}')">Trailer</button>
+                            </div>
                         </div>
-                    </div>
-                `;
-                grid.appendChild(div);
+                    `;
+                    if (upcomingGrid) upcomingGrid.appendChild(div);
+                } else {
+                    div.innerHTML = `
+                        <img src="${m.image}" alt="${m.title}">
+                        <div class="movie-info">
+                            <h3>${m.title}</h3>
+                            <p>${m.details}</p>
+                            <p class="movie-story">${m.story || "New highly anticipated release."}</p>
+                            <span>⭐ ${m.rating || "8.0"}</span>
+                            <div class="movie-buttons">
+                                <button onclick="startBooking('${m.title}', ${m.price})">Book Now</button>
+                                <button class="cart-btn" onclick="addToCart('${m.title}', ${m.price})">+ Cart</button>
+                                <button class="trailer-btn" onclick="openTrailer('${m.trailer}')">Trailer</button>
+                            </div>
+                        </div>
+                    `;
+                    nowShowingGrid.appendChild(div);
+                }
             });
         }
     }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -220,9 +220,16 @@
                         <label>Movie Description</label>
                         <input type="text" id="mStory" placeholder="e.g. A thrilling adventure...">
                     </div>
-                    <div class="full-width">
-                        <label>Showtimes (Comma separated)</label>
-                        <input type="text" id="mTimes" placeholder="e.g. 10:00 AM, 01:30 PM, 06:00 PM">
+                                        <div>
+                        <label>Category</label>
+                        <select id="mCategory" style="width:100%; padding:12px; background:#222; border:1px solid #444; border-radius:6px; color:#fff;">
+                            <option value="Now Showing">Now Showing</option>
+                            <option value="Upcoming">Upcoming (Coming Soon)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Showtimes OR Release Date</label>
+                        <input type="text" id="mTimes" placeholder="e.g. 10:00 AM OR 25 Dec 2026">
                     </div>
                     <div class="full-width">
                         <label>Poster Image URL</label>
@@ -238,7 +245,7 @@
                         <tr>
                             <th>Movie Title</th>
                             <th>Price</th>
-                            <th>Showtimes</th>
+                            <th>Category</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -304,7 +311,7 @@
                 tr.innerHTML = `
                     <td>${m.title}</td>
                     <td>₹${m.price}</td>
-                    <td>${m.times.join(", ")}</td>
+                    <td>${m.category || "Now Showing"}</td>
                     <td><button onclick="adminDeleteMovie('${m.title}')" style="background:transparent; border:1px solid #e50914; color:#e50914; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
                 `;
                 mBody.appendChild(tr);
