@@ -1404,6 +1404,7 @@ function adminAddMovie() {
     const rating = document.getElementById("mRating") ? document.getElementById("mRating").value.trim() : "8.0";
     const story = document.getElementById("mStory") ? document.getElementById("mStory").value.trim() : "New highly anticipated release.";
     const category = document.getElementById("mCategory") ? document.getElementById("mCategory").value : "Now Showing";
+    const useTrailer = document.getElementById("mUseTrailer") ? document.getElementById("mUseTrailer").checked : false;
     
     if(!title || !price || times.length === 0) {
         alert("Please fill required fields (Title, Price, Times)");
@@ -1411,7 +1412,7 @@ function adminAddMovie() {
     }
     
     const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
-    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release.", category: category });
+    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release.", category: category, useTrailer: useTrailer });
     localStorage.setItem("cinebookAddedMovies", JSON.stringify(addedMovies));
     
     alert(title + " has been successfully published!");
@@ -1456,9 +1457,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 const div = document.createElement("div");
                 div.className = "movie-card";
                 
+                let mediaHtml = `<img src="${m.image}" alt="${m.title}">`;
+                if (m.useTrailer && m.trailer) {
+                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${m.trailer}?autoplay=1&mute=1&loop=1&playlist=${m.trailer}&controls=0" style="width: 100%; height: 350px; border: none; border-radius: 12px 12px 0 0;" allow="autoplay; encrypted-media"></iframe>`;
+                }
+                
                 if (m.category === "Upcoming") {
                     div.innerHTML = `
-                        <img src="${m.image}" alt="${m.title}">
+                        ${mediaHtml}
                         <div class="movie-info">
                             <h3>${m.title}</h3>
                             <p>${m.details}</p>
@@ -1475,7 +1481,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     if (upcomingGrid) upcomingGrid.appendChild(div);
                 } else {
                     div.innerHTML = `
-                        <img src="${m.image}" alt="${m.title}">
+                        ${mediaHtml}
                         <div class="movie-info">
                             <h3>${m.title}</h3>
                             <p>${m.details}</p>

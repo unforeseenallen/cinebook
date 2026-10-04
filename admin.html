@@ -234,6 +234,10 @@
                     <div class="full-width">
                         <label>Poster Image URL</label>
                         <input type="text" id="mImage" placeholder="e.g. https://image.url/poster.jpg">
+                        <label style="margin-top: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="mUseTrailer" style="width: auto; margin: 0;">
+                            Auto-play Trailer instead of static Poster
+                        </label>
                     </div>
                     <div class="full-width">
                         <button class="cart-book" style="width:100%; border:none; padding:12px; font-weight:bold; cursor:pointer;" onclick="adminAddMovie()">+ Publish Movie to Website</button>
@@ -258,7 +262,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=1791136717813"></script>
+    <script src="script.js?v=1791140314228"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("cinebookRole") !== "admin") {
