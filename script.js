@@ -1248,8 +1248,8 @@ function promptCancelBooking(bookingId, amount) {
             <p>Refund Amount: <b>₹${amount}</b></p>
             <h4 style="margin-top:20px; margin-bottom:10px;">Choose Refund Destination:</h4>
             <div style="display:flex; flex-direction:column; gap:10px;">
-                <button class="cart-book" style="width:100%" onclick="processRefund(`${bookingId}`, ${amount}, `wallet`)">CineBook Wallet (Instant)</button>
-                <button class="cart-remove" style="width:100%; border:1px solid #e50914; background:transparent; color:#e50914;" onclick="processRefund(`${bookingId}`, ${amount}, `bank`)">Direct to Bank (24 hours)</button>
+                <button class="cart-book" style="width:100%" onclick="processRefund('${bookingId}', ${amount}, 'wallet')">CineBook Wallet (Instant)</button>
+                <button class="cart-remove" style="width:100%; border:1px solid #e50914; background:transparent; color:#e50914;" onclick="processRefund('${bookingId}', ${amount}, 'bank')">Direct to Bank (24 hours)</button>
             </div>
         </div>
     `;
