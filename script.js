@@ -7,12 +7,21 @@
     const currentPage = window.location.pathname.split("/").pop();
     
     // Pages that don't require redirecting TO login (i.e. already login page)
-    const isLoginPage = currentPage === "login.html" || currentPage === ""; // Wait, index.html is sometimes ""
+    const isLoginPage = currentPage === "login.html" || currentPage === "";
+    
+    // Protect Admin Page
+    if (currentPage === "admin.html" && localStorage.getItem("cinebookRole") !== "admin") {
+        window.location.href = "login.html";
+    }
     
     if (!isLoggedIn && currentPage !== "login.html") {
         window.location.href = "login.html";
     } else if (isLoggedIn && currentPage === "login.html") {
-        window.location.href = "index.html";
+        if (localStorage.getItem("cinebookRole") === "admin") {
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "index.html";
+        }
     }
 })();
 
@@ -218,6 +227,26 @@ function getBookings() {
         return [];
     }
 }
+
+
+function saveBookings(bookings) {
+    saveBookings(bookings);
+    
+    // Admin Global Bookings
+    const email = localStorage.getItem("cinebookEmail");
+    let globalBookings = JSON.parse(localStorage.getItem("cinebookGlobalBookings")) || [];
+    bookings.forEach(b => {
+        const idx = globalBookings.findIndex(gb => gb.id === b.id);
+        if (idx > -1) {
+            globalBookings[idx] = b; // Update status if cancelled
+        } else {
+            b.email = email;
+            globalBookings.push(b);
+        }
+    });
+    localStorage.setItem("cinebookGlobalBookings", JSON.stringify(globalBookings));
+}
+
 
 function saveCart(cart) {
     localStorage.setItem(accountStorageKey("cinebookCart"), JSON.stringify(cart));
@@ -848,7 +877,7 @@ function completePayment() {
         paymentMethod: methodString,
         bookedAt: new Date().toISOString()
     });
-    localStorage.setItem(accountStorageKey("cinebookBookings"), JSON.stringify(bookings));
+    saveBookings(bookings);
 
     const bookedMovie = localStorage.getItem("movie");
     const remainingCart = getCart().filter(function (item) {
