@@ -217,6 +217,16 @@
                         <input type="text" id="mRating" placeholder="e.g. 8.7">
                     </div>
                     <div>
+                        <label>Age Certification</label>
+                        <select id="mCert" style="width:100%; padding:12px; background:#222; border:1px solid #444; border-radius:6px; color:#fff;">
+                            <option value="">None</option>
+                            <option value="U">U (Universal)</option>
+                            <option value="U/A 13+">U/A 13+</option>
+                            <option value="U/A 16+">U/A 16+</option>
+                            <option value="A">A (Adults Only)</option>
+                        </select>
+                    </div>
+                    <div>
                         <label>Movie Description</label>
                         <input type="text" id="mStory" placeholder="e.g. A thrilling adventure...">
                     </div>
@@ -262,7 +272,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=1791140614722"></script>
+    <script src="script.js?v=1791141652190"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("cinebookRole") !== "admin") {

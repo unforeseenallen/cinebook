@@ -1397,11 +1397,15 @@ function getGlobalMovies() {
 function adminAddMovie() {
     const title = document.getElementById("mTitle").value.trim();
     const details = document.getElementById("mDetails").value.trim();
-    const trailer = document.getElementById("mTrailer").value.trim();
+    let trailerRaw = document.getElementById("mTrailer").value.trim();
+    let trailer = trailerRaw;
+    if (trailerRaw.includes("v=")) trailer = trailerRaw.split("v=")[1].split("&")[0];
+    else if (trailerRaw.includes("youtu.be/")) trailer = trailerRaw.split("youtu.be/")[1].split("?")[0];
     const price = Number(document.getElementById("mPrice").value);
     const times = document.getElementById("mTimes").value.split(",").map(t => t.trim());
     const image = document.getElementById("mImage").value.trim();
     const rating = document.getElementById("mRating") ? document.getElementById("mRating").value.trim() : "8.0";
+    const cert = document.getElementById("mCert") ? document.getElementById("mCert").value : "";
     const story = document.getElementById("mStory") ? document.getElementById("mStory").value.trim() : "New highly anticipated release.";
     const category = document.getElementById("mCategory") ? document.getElementById("mCategory").value : "Now Showing";
     const useTrailer = document.getElementById("mUseTrailer") ? document.getElementById("mUseTrailer").checked : false;
@@ -1415,7 +1419,7 @@ function adminAddMovie() {
     const deletedMovies = JSON.parse(localStorage.getItem("cinebookDeletedMovies")) || [];
     const existingIdx = addedMovies.findIndex(m => m.title.toLowerCase() === title.toLowerCase());
     
-    const movieObj = { title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release.", category: category, useTrailer: useTrailer };
+    const movieObj = { title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", cert: cert, story: story || "New highly anticipated release.", category: category, useTrailer: useTrailer };
     
     if (existingIdx > -1) {
         addedMovies[existingIdx] = movieObj;
@@ -1448,6 +1452,8 @@ function adminEditMovie(title) {
     document.getElementById("mImage").value = movie.image || "";
     const ratingEl = document.getElementById("mRating");
     if (ratingEl) ratingEl.value = movie.rating || "";
+    const certEl = document.getElementById("mCert");
+    if (certEl) certEl.value = movie.cert || "";
     const storyEl = document.getElementById("mStory");
     if (storyEl) storyEl.value = movie.story || "";
     const catEl = document.getElementById("mCategory");
@@ -1504,7 +1510,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     div.innerHTML = `
                         ${mediaHtml}
                         <div class="movie-info">
-                            <h3>${m.title}</h3>
+                            <h3>${m.title} ${m.cert ? `<span style="font-size:12px; background:#444; color:#fff; padding:2px 6px; border-radius:4px; vertical-align:middle; margin-left:8px;">${m.cert}</span>` : ""}</h3>
                             <p>${m.details}</p>
                             <div class="release-date">Release: ${m.times.join(", ")}</div>
                             <p class="movie-story">${m.story || "New highly anticipated release."}</p>
@@ -1521,7 +1527,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     div.innerHTML = `
                         ${mediaHtml}
                         <div class="movie-info">
-                            <h3>${m.title}</h3>
+                            <h3>${m.title} ${m.cert ? `<span style="font-size:12px; background:#444; color:#fff; padding:2px 6px; border-radius:4px; vertical-align:middle; margin-left:8px;">${m.cert}</span>` : ""}</h3>
                             <p>${m.details}</p>
                             <p class="movie-story">${m.story || "New highly anticipated release."}</p>
                             <span>⭐ ${m.rating || "8.0"}</span>
