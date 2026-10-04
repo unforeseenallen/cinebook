@@ -20,7 +20,7 @@
         if (localStorage.getItem("cinebookRole") === "admin") {
             window.location.href = "admin.html";
         } else {
-            
+            window.location.href = "index.html";
         }
     }
 })();
@@ -111,7 +111,7 @@ function loginUser(event) {
         if (localStorage.getItem("cinebookRole") === "admin") {
             window.location.href = "admin.html";
         } else {
-            
+            window.location.href = "index.html";
         }
     }
 }
