@@ -1473,5 +1473,24 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
         }
+    } else if (currentPage === "booking.html") {
+        const select = document.getElementById("movie");
+        if (select) {
+            const movies = getGlobalMovies();
+            select.innerHTML = '<option value="">Select Movie</option>';
+            movies.forEach(m => {
+                const opt = document.createElement("option");
+                opt.value = m.title;
+                opt.innerText = m.title + (m.category === "Upcoming" ? " (Coming Soon)" : "");
+                select.appendChild(opt);
+            });
+            
+            // Restore selection if passed from home page
+            const pendingMovie = localStorage.getItem("movie");
+            if (pendingMovie) {
+                select.value = pendingMovie;
+                if (typeof populateTheatres === "function") populateTheatres();
+            }
+        }
     }
 });
