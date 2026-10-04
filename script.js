@@ -1229,8 +1229,10 @@ function processRefund(bookingId, amount, method) {
     
     closeRefundModal();
     
-    // Reload UI if on cart page
-    if (document.getElementById("bookingsList")) {
+    // Redirect based on refund method
+    if (method === "wallet") {
+        window.location.href = "wallet.html";
+    } else {
         window.location.href = "index.html";
     }
 }
@@ -1277,7 +1279,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (loggedIn && bal > 0) {
             const walletDiv = document.createElement("div");
             walletDiv.id = "globalWalletDisplay";
-            walletDiv.innerHTML = `<span style="background: rgba(229, 9, 20, 0.15); border: 1px solid #e50914; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 13px; font-weight: bold; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px;">
+            walletDiv.innerHTML = `<span onclick="window.location.href='wallet.html'" style="background: rgba(229, 9, 20, 0.15); border: 1px solid #e50914; padding: 5px 12px; border-radius: 20px; color: #fff; font-size: 13px; font-weight: bold; margin-right: 15px; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; transition: 0.2s;" onmouseover="this.style.background='rgba(229, 9, 20, 0.3)'" onmouseout="this.style.background='rgba(229, 9, 20, 0.15)'">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M22 12h-4"/></svg>
                 ₹${bal}
             </span>`;

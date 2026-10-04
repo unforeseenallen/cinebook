@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook - Wallet</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">Cine<span>Book</span></div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#movies">Movies</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+        <button class="logout-btn" id="logoutButton" onclick="logoutUser()">Sign out</button>
+    </header>
+
+    <div class="cart-container" style="max-width:500px; margin-top:50px; text-align:center;">
+        <h2>My CineBook Wallet</h2>
+        
+        <div style="background: linear-gradient(145deg, #1a1a2e, #16213e); border: 1px solid #0f3460; border-radius: 12px; padding: 40px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(229, 9, 20, 0.2);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:15px;"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M22 12h-4"/></svg>
+            <p style="color:#aaa; font-size:16px; margin-bottom:5px;">Available Balance</p>
+            <h1 style="color:#fff; font-size:48px; margin:0;">₹<span id="walletPageBalance">0</span></h1>
+        </div>
+
+        <p style="color:#888; font-size:14px; margin-top:30px; line-height:1.5;">
+            This balance is instantly available and will automatically appear as a payment option on the checkout screen during your next booking!
+        </p>
+
+        <button class="cart-book" style="margin-top:20px; width:100%;" onclick="window.location.href='index.html'">Book a Movie Now</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("walletPageBalance").innerText = getWalletBalance();
+        });
+    </script>
+</body>
+</html>
