@@ -434,8 +434,27 @@ function setSelectOptions(select, placeholder, values) {
 }
 
 function getShowsForSelectedMovie() {
-    const movie = document.getElementById("movie");
-    return movie ? movieShowSchedule[movie.value] || [] : [];
+    const movieEl = document.getElementById("movie");
+    if (!movieEl || !movieEl.value) return [];
+    
+    const movieName = movieEl.value;
+    
+    // Check hardcoded schedule
+    if (movieShowSchedule[movieName]) {
+        return movieShowSchedule[movieName];
+    }
+    
+    // Check dynamically added movies
+    const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
+    const customMovie = addedMovies.find(m => m.title === movieName);
+    if (customMovie) {
+        return [
+            { theatre: "CineBook Premium", screen: "Screen A", times: customMovie.times },
+            { theatre: "PVR Cinemas", screen: "Screen 1", times: customMovie.times }
+        ];
+    }
+    
+    return [];
 }
 
 function updateShowAvailability() {
