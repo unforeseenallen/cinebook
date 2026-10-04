@@ -782,6 +782,17 @@ function loadPayment() {
         upiQrCode.src = createPaymentQrUrl(total);
     }
 
+    // Wallet Section Logic
+    const bal = getWalletBalance();
+    if (bal > 0) {
+        const wSec = document.getElementById("walletSection");
+        const wBal = document.getElementById("walletBalanceDisplay");
+        if (wSec && wBal) {
+            wSec.style.display = "block";
+            wBal.innerText = bal;
+        }
+    }
+
     // UPI is selected by default.
     showUPI();
 }
