@@ -1412,12 +1412,50 @@ function adminAddMovie() {
     }
     
     const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
-    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release.", category: category, useTrailer: useTrailer });
+    const deletedMovies = JSON.parse(localStorage.getItem("cinebookDeletedMovies")) || [];
+    const existingIdx = addedMovies.findIndex(m => m.title.toLowerCase() === title.toLowerCase());
+    
+    const movieObj = { title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release.", category: category, useTrailer: useTrailer };
+    
+    if (existingIdx > -1) {
+        addedMovies[existingIdx] = movieObj;
+        alert(title + " has been successfully updated!");
+    } else {
+        addedMovies.push(movieObj);
+        alert(title + " has been successfully published!");
+        if (!deletedMovies.includes(title)) {
+            deletedMovies.push(title);
+            localStorage.setItem("cinebookDeletedMovies", JSON.stringify(deletedMovies));
+        }
+    }
+    
     localStorage.setItem("cinebookAddedMovies", JSON.stringify(addedMovies));
     
-    alert(title + " has been successfully published!");
     document.getElementById("mTitle").value = "";
     loadAdminData(); // Refresh table
+}
+
+function adminEditMovie(title) {
+    const movies = getGlobalMovies();
+    const movie = movies.find(m => m.title === title);
+    if (!movie) return;
+    
+    document.getElementById("mTitle").value = movie.title || "";
+    document.getElementById("mDetails").value = movie.details || "";
+    document.getElementById("mTrailer").value = movie.trailer || "";
+    document.getElementById("mPrice").value = movie.price || "";
+    document.getElementById("mTimes").value = (movie.times || []).join(", ");
+    document.getElementById("mImage").value = movie.image || "";
+    const ratingEl = document.getElementById("mRating");
+    if (ratingEl) ratingEl.value = movie.rating || "";
+    const storyEl = document.getElementById("mStory");
+    if (storyEl) storyEl.value = movie.story || "";
+    const catEl = document.getElementById("mCategory");
+    if (catEl) catEl.value = movie.category || "Now Showing";
+    const useTrailerBox = document.getElementById("mUseTrailer");
+    if (useTrailerBox) useTrailerBox.checked = movie.useTrailer || false;
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function adminDeleteMovie(title) {

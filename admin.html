@@ -240,7 +240,7 @@
                         </label>
                     </div>
                     <div class="full-width">
-                        <button class="cart-book" style="width:100%; border:none; padding:12px; font-weight:bold; cursor:pointer;" onclick="adminAddMovie()">+ Publish Movie to Website</button>
+                        <button class="cart-book" style="width:100%; border:none; padding:12px; font-weight:bold; cursor:pointer;" onclick="adminAddMovie()">Publish / Update Movie</button>
                     </div>
                 </div>
 
@@ -262,7 +262,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=1791140314228"></script>
+    <script src="script.js?v=1791140614722"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("cinebookRole") !== "admin") {
@@ -316,7 +316,10 @@
                     <td>${m.title}</td>
                     <td>₹${m.price}</td>
                     <td>${m.category || "Now Showing"}</td>
-                    <td><button onclick="adminDeleteMovie('${m.title}')" style="background:transparent; border:1px solid #e50914; color:#e50914; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
+                    <td>
+                        <button onclick="adminEditMovie('${m.title}')" style="background:transparent; border:1px solid #4CAF50; color:#4CAF50; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:5px;">Edit</button>
+                        <button onclick="adminDeleteMovie('${m.title}')" style="background:transparent; border:1px solid #e50914; color:#e50914; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button>
+                    </td>
                 `;
                 mBody.appendChild(tr);
             });
