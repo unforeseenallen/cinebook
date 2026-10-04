@@ -1154,12 +1154,16 @@ function openTrailer(youtubeURL) {
 
     let videoId = "";
 
-    if (youtubeURL.includes("watch?v=")) {
+    if (!youtubeURL || youtubeURL === "undefined") {
+        videoId = "";
+    } else if (youtubeURL.includes("watch?v=")) {
         videoId = youtubeURL.split("watch?v=")[1].split("&")[0];
     } else if (youtubeURL.includes("youtu.be/")) {
         videoId = youtubeURL.split("youtu.be/")[1].split("?")[0];
     } else if (youtubeURL.includes("/embed/")) {
         videoId = youtubeURL.split("/embed/")[1].split("?")[0];
+    } else if (!youtubeURL.includes("/")) {
+        videoId = youtubeURL;
     }
 
     if (!videoId || videoId === "YOUR_TRAILER_ID") {
