@@ -1425,7 +1425,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         
         const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
-        const grid = document.querySelector(".movies-grid");
+        const grid = document.querySelector(".movie-grid");
         if(grid) {
             addedMovies.forEach(m => {
                 const div = document.createElement("div");
