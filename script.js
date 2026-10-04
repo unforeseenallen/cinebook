@@ -242,7 +242,7 @@ function getBookings() {
 
 
 function saveBookings(bookings) {
-    saveBookings(bookings);
+    localStorage.setItem(accountStorageKey("cinebookBookings"), JSON.stringify(bookings));
     
     // Admin Global Bookings
     const email = localStorage.getItem("cinebookEmail");
