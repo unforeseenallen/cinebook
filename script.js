@@ -1382,6 +1382,8 @@ function adminAddMovie() {
     const price = Number(document.getElementById("mPrice").value);
     const times = document.getElementById("mTimes").value.split(",").map(t => t.trim());
     const image = document.getElementById("mImage").value.trim();
+    const rating = document.getElementById("mRating") ? document.getElementById("mRating").value.trim() : "8.0";
+    const story = document.getElementById("mStory") ? document.getElementById("mStory").value.trim() : "New highly anticipated release.";
     
     if(!title || !price || times.length === 0) {
         alert("Please fill required fields (Title, Price, Times)");
@@ -1389,7 +1391,7 @@ function adminAddMovie() {
     }
     
     const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
-    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg" });
+    addedMovies.push({ title, details, trailer, price, times, image: image || "images/movie1.jpg", rating: rating || "8.0", story: story || "New highly anticipated release." });
     localStorage.setItem("cinebookAddedMovies", JSON.stringify(addedMovies));
     
     alert(title + " has been successfully published!");
@@ -1435,7 +1437,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     <div class="movie-info">
                         <h3>${m.title}</h3>
                         <p>${m.details}</p>
-                        <p class="movie-story">New highly anticipated release.</p>
+                        <p class="movie-story">${m.story || "New highly anticipated release."}</p>
+                        <span>⭐ ${m.rating || "8.0"}</span>
                         <div class="movie-buttons">
                             <button onclick="startBooking('${m.title}', ${m.price})">Book Now</button>
                             <button class="cart-btn" onclick="addToCart('${m.title}', ${m.price})">+ Cart</button>

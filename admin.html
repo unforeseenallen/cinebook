@@ -212,6 +212,14 @@
                         <label>Base Price (₹)</label>
                         <input type="number" id="mPrice" placeholder="e.g. 200">
                     </div>
+                    <div>
+                        <label>Star Rating (out of 10)</label>
+                        <input type="text" id="mRating" placeholder="e.g. 8.7">
+                    </div>
+                    <div>
+                        <label>Movie Description</label>
+                        <input type="text" id="mStory" placeholder="e.g. A thrilling adventure...">
+                    </div>
                     <div class="full-width">
                         <label>Showtimes (Comma separated)</label>
                         <input type="text" id="mTimes" placeholder="e.g. 10:00 AM, 01:30 PM, 06:00 PM">
@@ -243,7 +251,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=1791135358325"></script>
+    <script src="script.js?v=1791136717813"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (localStorage.getItem("cinebookRole") !== "admin") {
