@@ -92,78 +92,180 @@
             color: #e50914;
             font-weight: 600;
         }
+        .admin-tab {
+            display: none;
+        }
+        .admin-tab.active {
+            display: block;
+        }
+        
+        /* Form styling */
+        .admin-form {
+            background: #151515;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .admin-form input {
+            width: 100%;
+            padding: 12px;
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: #fff;
+        }
+        .admin-form label {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
     </style>
 </head>
 <body>
     <div class="admin-layout">
         <div class="admin-sidebar">
             <div class="logo">Cine<span>Admin</span></div>
-            <nav class="admin-nav">
-                <a href="#" class="active">Dashboard Stats</a>
-                <a href="#" onclick="alert('Manage Movies coming soon!')">Manage Movies</a>
-                <a href="#" onclick="alert('Manage Users coming soon!')">Manage Users</a>
+            <nav class="admin-nav" id="adminNav">
+                <a href="#" class="active" onclick="switchAdminTab('dashboard', this)">Dashboard Stats</a>
+                <a href="#" onclick="switchAdminTab('movies', this)">Manage Movies</a>
             </nav>
             <button class="logout-btn" style="margin-top: auto;" onclick="logoutUser()">Sign out</button>
         </div>
         
         <div class="admin-content">
-            <div class="admin-header">
-                <h1>Overview</h1>
-            </div>
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Bookings</h3>
-                    <div class="value" id="statBookings">0</div>
+            <!-- DASHBOARD TAB -->
+            <div id="tab-dashboard" class="admin-tab active">
+                <div class="admin-header">
+                    <h1>Overview</h1>
                 </div>
-                <div class="stat-card">
-                    <h3>Total Revenue</h3>
-                    <div class="value" id="statRevenue">₹0</div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Bookings</h3>
+                        <div class="value" id="statBookings">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Revenue</h3>
+                        <div class="value" id="statRevenue">₹0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Movies</h3>
+                        <div class="value" id="statMovies">0</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h3>Registered Users</h3>
-                    <div class="value" id="statUsers">1</div>
-                </div>
+
+                <h2 style="color: #fff; margin-bottom: 20px;">Recent Global Bookings</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>User Email</th>
+                            <th>Movie</th>
+                            <th>Date & Time</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBookingsTable">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
             </div>
 
-            <h2 style="color: #fff; margin-bottom: 20px;">Recent Global Bookings</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Booking ID</th>
-                        <th>User Email</th>
-                        <th>Movie</th>
-                        <th>Date & Time</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="adminBookingsTable">
-                    <!-- Populated by JS -->
-                </tbody>
-            </table>
+            <!-- MANAGE MOVIES TAB -->
+            <div id="tab-movies" class="admin-tab">
+                <div class="admin-header">
+                    <h1>Manage Movies</h1>
+                </div>
+
+                <div class="admin-form" id="addMovieForm">
+                    <div class="full-width">
+                        <h3 style="color:#e50914; margin-top:0;">Add New Movie</h3>
+                    </div>
+                    <div>
+                        <label>Movie Title</label>
+                        <input type="text" id="mTitle" placeholder="e.g. Inception">
+                    </div>
+                    <div>
+                        <label>Details (Genre | Lang | Duration)</label>
+                        <input type="text" id="mDetails" placeholder="e.g. Sci-Fi | English | 2h 28m">
+                    </div>
+                    <div>
+                        <label>Trailer YouTube ID</label>
+                        <input type="text" id="mTrailer" placeholder="e.g. 8hP9D6kZseM">
+                    </div>
+                    <div>
+                        <label>Base Price (₹)</label>
+                        <input type="number" id="mPrice" placeholder="e.g. 200">
+                    </div>
+                    <div class="full-width">
+                        <label>Showtimes (Comma separated)</label>
+                        <input type="text" id="mTimes" placeholder="e.g. 10:00 AM, 01:30 PM, 06:00 PM">
+                    </div>
+                    <div class="full-width">
+                        <label>Poster Image URL</label>
+                        <input type="text" id="mImage" placeholder="e.g. https://image.url/poster.jpg">
+                    </div>
+                    <div class="full-width">
+                        <button class="cart-book" style="width:100%; border:none; padding:12px; font-weight:bold; cursor:pointer;" onclick="adminAddMovie()">+ Publish Movie to Website</button>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Movie Title</th>
+                            <th>Price</th>
+                            <th>Showtimes</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminMoviesTable">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 
-    <script src="script.js?v=admin"></script>
+    <script src="script.js?v=admin_movies"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Protect Admin Page
             if (localStorage.getItem("cinebookRole") !== "admin") {
                 window.location.href = "login.html";
                 return;
             }
+            loadAdminData();
+        });
+
+        function switchAdminTab(tabName, linkEl) {
+            document.querySelectorAll(".admin-tab").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".admin-nav a").forEach(a => a.classList.remove("active"));
             
-            // Load global bookings
+            document.getElementById("tab-" + tabName).classList.add("active");
+            linkEl.classList.add("active");
+        }
+
+        function loadAdminData() {
+            // Stats
             const globalBookings = JSON.parse(localStorage.getItem("cinebookGlobalBookings")) || [];
-            
-            // Update Stats
             document.getElementById("statBookings").innerText = globalBookings.length;
             const revenue = globalBookings.reduce((sum, b) => b.status !== "CANCELLED" ? sum + b.total : sum, 0);
             document.getElementById("statRevenue").innerText = "₹" + revenue;
             
-            // Populate Table
+            // Bookings Table
             const tbody = document.getElementById("adminBookingsTable");
+            tbody.innerHTML = "";
             globalBookings.reverse().forEach(b => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = \`
@@ -176,11 +278,26 @@
                 \`;
                 tbody.appendChild(tr);
             });
+            if(globalBookings.length === 0) tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No bookings yet</td></tr>";
+
+            // Load Movies
+            const movies = getGlobalMovies();
+            document.getElementById("statMovies").innerText = movies.length;
             
-            if(globalBookings.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No bookings yet</td></tr>";
-            }
-        });
+            const mBody = document.getElementById("adminMoviesTable");
+            mBody.innerHTML = "";
+            movies.forEach(m => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = \`
+                    <td>\${m.title}</td>
+                    <td>₹\${m.price}</td>
+                    <td>\${m.times.join(", ")}</td>
+                    <td><button onclick="adminDeleteMovie('\${m.title}')" style="background:transparent; border:1px solid #e50914; color:#e50914; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
+                \`;
+                mBody.appendChild(tr);
+            });
+            if(movies.length === 0) mBody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No movies available</td></tr>";
+        }
     </script>
 </body>
 </html>
