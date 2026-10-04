@@ -273,14 +273,14 @@
             tbody.innerHTML = "";
             globalBookings.reverse().forEach(b => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = \`
-                    <td>\${b.id}</td>
-                    <td>\${b.email || "Unknown"}</td>
-                    <td>\${b.movie}</td>
-                    <td>\${b.date} | \${b.time}</td>
-                    <td>₹\${b.total}</td>
-                    <td style="color: \${b.status === "CANCELLED" ? "#888" : "#28a745"}">\${b.status || "CONFIRMED"}</td>
-                \`;
+                tr.innerHTML = `
+                    <td>${b.id}</td>
+                    <td>${b.email || "Unknown"}</td>
+                    <td>${b.movie}</td>
+                    <td>${b.date} | ${b.time}</td>
+                    <td>₹${b.total}</td>
+                    <td style="color: ${b.status === "CANCELLED" ? "#888" : "#28a745"}">${b.status || "CONFIRMED"}</td>
+                `;
                 tbody.appendChild(tr);
             });
             if(globalBookings.length === 0) tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>No bookings yet</td></tr>";
@@ -293,12 +293,12 @@
             mBody.innerHTML = "";
             movies.forEach(m => {
                 const tr = document.createElement("tr");
-                tr.innerHTML = \`
-                    <td>\${m.title}</td>
-                    <td>₹\${m.price}</td>
-                    <td>\${m.times.join(", ")}</td>
-                    <td><button onclick="adminDeleteMovie('\${m.title}')" style="background:transparent; border:1px solid #e50914; color:#e50914; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
-                \`;
+                tr.innerHTML = `
+                    <td>${m.title}</td>
+                    <td>₹${m.price}</td>
+                    <td>${m.times.join(", ")}</td>
+                    <td><button onclick="adminDeleteMovie('${m.title}')" style="background:transparent; border:1px solid #e50914; color:#e50914; padding:5px 10px; border-radius:4px; cursor:pointer;">Delete</button></td>
+                `;
                 mBody.appendChild(tr);
             });
             if(movies.length === 0) mBody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No movies available</td></tr>";
