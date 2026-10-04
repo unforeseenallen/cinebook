@@ -75,6 +75,14 @@ function loginUser(event) {
 
     localStorage.setItem("cinebookLoggedIn", "true");
     localStorage.setItem("cinebookEmail", email);
+    
+    // Admin Check
+    if (email.toLowerCase() === "admin@cinebook.com" && password === "admin123") {
+        localStorage.setItem("cinebookRole", "admin");
+    } else {
+        localStorage.setItem("cinebookRole", "user");
+    }
+    
     migrateLegacyAccountData(email);
 
     if (previousEmail && previousEmail.toLowerCase() !== email.toLowerCase()) {
@@ -100,7 +108,11 @@ function loginUser(event) {
         window.location.href = "booking.html";
     } else {
         alert("Login successful!");
-        window.location.href = "index.html";
+        if (localStorage.getItem("cinebookRole") === "admin") {
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "index.html";
+        }
     }
 }
 
