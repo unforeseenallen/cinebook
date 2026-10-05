@@ -1561,6 +1561,21 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         
+        // Auto-fix broken image paths from admin panel uploads
+        let fixMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies"));
+        if (fixMovies && Array.isArray(fixMovies)) {
+            let changed = false;
+            fixMovies.forEach(m => {
+                if (m.title.toLowerCase().includes("doomsday") && (!m.image.startsWith("images/") || m.image.includes("fakepath"))) {
+                    m.image = "images/Dooms Day.jpg";
+                    changed = true;
+                }
+            });
+            if (changed) {
+                localStorage.setItem("cinebookAddedMovies", JSON.stringify(fixMovies));
+            }
+        }
+        
         const addedMovies = JSON.parse(localStorage.getItem("cinebookAddedMovies")) || [];
         const grids = document.querySelectorAll(".movie-grid");
         const nowShowingGrid = grids[0];
