@@ -1570,6 +1570,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     m.image = "images/Dooms Day.jpg";
                     changed = true;
                 }
+                if (m.title.toLowerCase().includes("godzilla") && m.image.includes("GODZILLA.jpg")) {
+                    m.image = "images/godzilla.jpg";
+                    changed = true;
+                }
             });
             if (changed) {
                 localStorage.setItem("cinebookAddedMovies", JSON.stringify(fixMovies));
