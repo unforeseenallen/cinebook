@@ -1145,6 +1145,72 @@ function sendTicketByGmail() {
    TRAILER SYSTEM
 ========================================= */
 
+function toggleCardTrailer(element, videoUrl, isMp4) {
+    const card = element.closest('.movie-card');
+    const wrapper = card.querySelector('.video-wrapper');
+    if (!wrapper) return;
+    
+    if (wrapper.dataset.hovering === "true") {
+        stopCardTrailer(card);
+    } else {
+        playCardTrailer(card, videoUrl, isMp4);
+    }
+}
+
+function playCardTrailer(card, videoUrl, isMp4) {
+    const img = card.querySelector('.card-poster');
+    const wrapper = card.querySelector('.video-wrapper');
+    if (!wrapper) return;
+    
+    wrapper.dataset.hovering = "true";
+    
+    if (isMp4 === 'true' || isMp4 === true) {
+        let video = wrapper.querySelector('video');
+        if (!video) {
+            video = document.createElement('video');
+            video.src = videoUrl;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'cover';
+            wrapper.appendChild(video);
+        }
+        video.play().catch(e => console.log("Autoplay prevented"));
+    } else {
+        if (!wrapper.querySelector('iframe')) {
+            wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoUrl}?autoplay=1&mute=1&loop=1&playsinline=1&playlist=${videoUrl}&controls=0" style="position: absolute; top: 50%; left: 50%; width: 900px; height: 506px; max-width: none; transform: translate(-50%, -50%); border: none;" allow="autoplay; encrypted-media"></iframe>`;
+        }
+    }
+    
+    if (img) {
+        img.style.opacity = '0';
+    }
+}
+
+function stopCardTrailer(card) {
+    const img = card.querySelector('.card-poster');
+    const wrapper = card.querySelector('.video-wrapper');
+    if (!wrapper) return;
+    
+    wrapper.dataset.hovering = "false";
+    
+    if (img) {
+        img.style.opacity = '1';
+    }
+    
+    setTimeout(() => {
+        if (wrapper.dataset.hovering !== "true") {
+            const video = wrapper.querySelector('video');
+            if (video) video.pause();
+            
+            const iframe = wrapper.querySelector('iframe');
+            if (iframe) wrapper.innerHTML = "";
+        }
+    }, 300);
+}
+
 function openTrailer(youtubeURL) {
     const modal = document.getElementById("trailerModal");
     const frame = document.getElementById("trailerFrame");
@@ -1507,7 +1573,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 let mediaHtml = `<img src="${m.image}" alt="${m.title}">`;
                 if (m.useTrailer && m.trailer) {
-                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${m.trailer}?autoplay=1&mute=1&loop=1&playlist=${m.trailer}&controls=0" style="width: 100%; height: 350px; border: none; border-radius: 12px 12px 0 0;" allow="autoplay; encrypted-media"></iframe>`;
+                    let tId = m.trailer;
+                    if (tId.includes("v=")) tId = tId.split("v=")[1].split("&")[0];
+                    else if (tId.includes("youtu.be/")) tId = tId.split("youtu.be/")[1].split("?")[0];
+                    else if (tId.includes("/embed/")) tId = tId.split("/embed/")[1].split("?")[0];
+                    
+                    let isMp4 = (m.trailer.toLowerCase().endsWith(".mp4") || m.trailer.toLowerCase().endsWith(".webm") || m.trailer.toLowerCase().includes(".mp4"));
+                    
+                    mediaHtml = `
+                        <div onclick="toggleCardTrailer(this, '${isMp4 ? m.trailer : tId}', ${isMp4})" style="position: relative; width: 100%; height: 380px; overflow: hidden; border-radius: 12px 12px 0 0; background: #000; cursor: pointer;">
+                            <img class="card-poster" src="${m.image}" alt="${m.title}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; transition: opacity 0.5s; pointer-events: none;">
+                            <div class="video-wrapper" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></div>
+                        </div>
+                    `;
                 }
                 
                 if (m.category === "Upcoming") {
