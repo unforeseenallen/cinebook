@@ -1566,11 +1566,11 @@ document.addEventListener("DOMContentLoaded", function() {
         if (fixMovies && Array.isArray(fixMovies)) {
             let changed = false;
             fixMovies.forEach(m => {
-                if (m.title.toLowerCase().includes("doomsday") && (!m.image.startsWith("images/") || m.image.includes("fakepath"))) {
+                if (m.title.toLowerCase().includes("doomsday") && !m.image.startsWith("http") && (!m.image.startsWith("images/") || m.image.includes("fakepath"))) {
                     m.image = "images/Dooms Day.jpg";
                     changed = true;
                 }
-                if (m.title.toLowerCase().includes("godzilla") && m.image.includes("GODZILLA.jpg")) {
+                if (m.title.toLowerCase().includes("godzilla") && !m.image.startsWith("http") && m.image.includes("GODZILLA.jpg")) {
                     m.image = "images/godzilla.jpg";
                     changed = true;
                 }
