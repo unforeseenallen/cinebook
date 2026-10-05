@@ -1180,7 +1180,7 @@ function playCardTrailer(card, videoUrl, isMp4) {
         video.play().catch(e => console.log("Autoplay prevented"));
     } else {
         if (!wrapper.querySelector('iframe')) {
-            wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoUrl}?autoplay=1&mute=1&loop=1&playsinline=1&playlist=${videoUrl}&controls=0" style="position: absolute; top: 50%; left: 50%; width: 900px; height: 506px; max-width: none; transform: translate(-50%, -50%); border: none;" allow="autoplay; encrypted-media"></iframe>`;
+            wrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoUrl}?autoplay=1&mute=1&loop=1&playsinline=1&playlist=${videoUrl}&controls=0" style="position: absolute; top: 50%; left: 50%; width: 1200px; height: 675px; max-width: none; transform: translate(-50%, -50%); border: none;" allow="autoplay; encrypted-media"></iframe>`;
         }
     }
     
