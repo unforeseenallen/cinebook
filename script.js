@@ -1584,6 +1584,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const grids = document.querySelectorAll(".movie-grid");
         const nowShowingGrid = grids[0];
         const upcomingGrid = grids[1];
+        const comingSoonGrid = grids[2];
         
         if(nowShowingGrid) {
             addedMovies.forEach(m => {
@@ -1615,7 +1616,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <p>${m.details}</p>
                             <div class="release-date">Release: ${m.times.join(", ")}</div>
                             <p class="movie-story">${m.story || "New highly anticipated release."}</p>
-                            <span class="coming-label">COMING SOON</span>
+                            <span class="coming-label">UPCOMING</span>
                             <div class="movie-buttons">
                                 <button onclick="startBooking('${m.title}', ${m.price})">Pre-Book</button>
                                 <button class="cart-btn" onclick="addToCart('${m.title}', ${m.price})">+ Cart</button>
@@ -1624,6 +1625,23 @@ document.addEventListener("DOMContentLoaded", function() {
                         </div>
                     `;
                     if (upcomingGrid) upcomingGrid.appendChild(div);
+                } else if (m.category === "Coming Soon") {
+                    div.innerHTML = `
+                        ${mediaHtml}
+                        <div class="movie-info">
+                            <h3>${m.title} ${m.cert ? `<span style="font-size:12px; background:#444; color:#fff; padding:2px 6px; border-radius:4px; vertical-align:middle; margin-left:8px;">${m.cert}</span>` : ""}</h3>
+                            <p>${m.details}</p>
+                            <div class="release-date">Release: ${m.times.join(", ")}</div>
+                            <p class="movie-story">${m.story || "New highly anticipated release."}</p>
+                            <span class="coming-label">COMING SOON</span>
+                            <div class="movie-buttons">
+                                <button onclick="startBooking('${m.title}', ${m.price})">Pre-Book</button>
+                                <button class="cart-btn" onclick="addToCart('${m.title}', ${m.price})">+ Cart</button>
+                                <button class="trailer-btn" onclick="openTrailer('${m.trailer}')">Trailer</button>
+                            </div>
+                        </div>
+                    `;
+                    if (comingSoonGrid) comingSoonGrid.appendChild(div);
                 } else {
                     div.innerHTML = `
                         ${mediaHtml}
@@ -1651,7 +1669,10 @@ document.addEventListener("DOMContentLoaded", function() {
             movies.forEach(m => {
                 const opt = document.createElement("option");
                 opt.value = m.title;
-                opt.innerText = m.title + (m.category === "Upcoming" ? " (Coming Soon)" : "");
+                let suffix = "";
+                if (m.category === "Upcoming") suffix = " (Upcoming)";
+                else if (m.category === "Coming Soon") suffix = " (Coming Soon)";
+                opt.innerText = m.title + suffix;
                 select.appendChild(opt);
             });
             

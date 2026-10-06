@@ -1,4 +1,4 @@
-﻿
+
 const fs = require("fs");
 let text = fs.readFileSync("admin.html", "utf8");
 text = text.replace(/\r\n/g, "\n");
@@ -12,7 +12,8 @@ const formNew = `                    <div>
                         <label>Category</label>
                         <select id="mCategory" style="width:100%; padding:12px; background:#222; border:1px solid #444; border-radius:6px; color:#fff;">
                             <option value="Now Showing">Now Showing</option>
-                            <option value="Upcoming">Upcoming (Coming Soon)</option>
+                            <option value="Upcoming">Upcoming</option>
+                            <option value="Coming Soon">Coming Soon</option>
                         </select>
                     </div>
                     <div>
